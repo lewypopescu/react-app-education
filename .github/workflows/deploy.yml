@@ -1,10 +1,9 @@
-# deploy.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main # Trigger deploy on push to the main branch
+      - main
 
 jobs:
   build-and-deploy:
@@ -17,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Folosește versiunea Node.js dorită
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install
