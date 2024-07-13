@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://lewypopescu.github.io/react-app-education",
   "dependencies": {
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
