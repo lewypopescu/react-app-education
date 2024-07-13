@@ -1,5 +1,6 @@
-import MenuItem from './MenuItem';
+import MenuItem from '../MenuItem';
 import PropTypes from 'prop-types';
+import './Menu.css'
 
 function Menu({ items, isVisible = true }) {
   // const { items, title, isVisible } = props;
@@ -9,14 +10,11 @@ function Menu({ items, isVisible = true }) {
   }
 
   return (
-    <>
-      <ul>
-        {items.map((el, index) => {
-          return <MenuItem key={index} item={el} />;
-        })}
-      </ul>
-      <button>{'<'}</button>
-    </>
+    <ul className='sidebar-menu'>
+      {items.map((el, index) => {
+        return <MenuItem key={index} item={el} isActive={index === 0} />;
+      })}
+    </ul>
   );
 }
 

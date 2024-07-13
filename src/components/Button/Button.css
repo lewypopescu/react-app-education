@@ -1,0 +1,16 @@
+.button {
+    background: blue;
+    padding: 8px 16px;
+    font-size: 20px;
+    outline: none;
+}
+
+.button.primary {
+    background: black;
+    color: white;
+}
+
+.button.danger {
+    background: red;
+    color: white;
+}

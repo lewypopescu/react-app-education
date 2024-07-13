@@ -1,8 +1,7 @@
-import Paper from "./Paper";
+import Profile from "./Profile";
 import Sidebar from "./Sidebar";
 import TutorsList from "./TutorsList";
-
-import schoolImage from "../images/School1.png";
+import University from "./University/University";
 
 export function App() {
   const data = {
@@ -36,18 +35,16 @@ export function App() {
   };
 
   return (
-    <main>
+    <div className="wrapper">
+      <Profile />
       <Sidebar />
-      {/* <Paper children={<><h1>University</h1><p>Test</p></>}> </Paper> */}
+      <main className="main">
+        <h1 className="page-title">University Information</h1>
+        <University />
 
-      <Paper>
-        <h1>Universityyyyyyyyyy</h1>
-        <p>Testtt</p>
-        <img src={schoolImage} alt="School" />
-        {/* <img src={`${process.env.PUBLIC_URL}${imagePath}`} alt="School" /> */}
-      </Paper>
-
-      <TutorsList tutors={data.tutors} />
-    </main>
+        <h2 style={{ marginTop: "64px" }}>Tutors</h2>
+        <TutorsList tutors={data.tutors} />
+      </main>
+    </div>
   );
 }
