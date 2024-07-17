@@ -25,9 +25,16 @@
     align-items: center;
     justify-content: center;
     color: #fff;
+    cursor: pointer;
 }
 
 .sidebar-control svg {
+    color: #fff;
     height: 16px;
     width: 16px;
+    fill: white;
+    
+    path {
+        fill: #fff;
+    }
 }

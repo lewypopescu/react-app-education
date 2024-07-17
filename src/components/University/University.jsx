@@ -7,7 +7,6 @@ import styles from "./University.module.css";
 import schoolImage from "../../images/School1.png";
 
 function University() {
-  console.log(styles);
   return (
     <div className={styles.university}>
       <div className={styles.info}>
@@ -17,7 +16,7 @@ function University() {
             src={schoolImage}
             alt="School"
           />
-          <p>University</p>
+          <p>university</p>
           <h2 className={styles.title}>MIT</h2>
           <div className={styles.controls}>
             <button className="button-icon">

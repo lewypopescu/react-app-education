@@ -1,8 +1,7 @@
 .button {
-    background: blue;
-    padding: 8px 16px;
-    font-size: 20px;
+    font-size: 16px;
     outline: none;
+    color: white;
 }
 
 .primary {
