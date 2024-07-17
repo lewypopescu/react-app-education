@@ -1,5 +1,6 @@
-import { createRef, Component } from 'react';
-import styles from './Modal.module.css';
+import { createRef, Component } from "react";
+
+// import styles from './Modal.module.css';
 
 export default class Modal extends Component {
   constructor(props) {
@@ -9,18 +10,18 @@ export default class Modal extends Component {
   }
 
   componentDidMount() {
-    document.body.addEventListener('mousedown', this.handleClickOutside);
-    document.body.addEventListener('keydown', this.handleKeyDown);
+    document.body.addEventListener("mousedown", this.handleClickOutside);
+    document.body.addEventListener("keydown", this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('mousedown', this.handleClickOutside);
-    document.body.removeEventListener('keydown', this.handleKeyDown);
+    document.body.removeEventListener("mousedown", this.handleClickOutside);
+    document.body.removeEventListener("keydown", this.handleKeyDown);
   }
 
   componentDidUpdate() {
     if (!this.modalRef?.current) {
-      return
+      return;
     }
 
     if (this.props.isVisible) {
@@ -32,17 +33,20 @@ export default class Modal extends Component {
 
   handleClose = () => {
     this.modalRef.current.close();
-  }
+  };
 
   handleKeyDown = (event) => {
     console.log(event.key);
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       this.handleClose();
     }
   };
 
   handleClickOutside = (event) => {
-    if (this.modalContentRef.current && !this.modalContentRef.current.contains(event.target)) {
+    if (
+      this.modalContentRef.current &&
+      !this.modalContentRef.current.contains(event.target)
+    ) {
       this.handleClose();
     }
   };
@@ -51,14 +55,16 @@ export default class Modal extends Component {
     const { isVisible } = this.props;
 
     if (!isVisible) {
-        return;
+      return;
     }
 
     return (
       <dialog id="modal" ref={this.modalRef}>
-        <div id="modal-content"  ref={this.modalContentRef}>
+        <div id="modal-content" ref={this.modalContentRef}>
           <h1>This is a modal.</h1>
-          <button id="closeModal" onClick={this.handleClose}>Close modal</button>
+          <button id="closeModal" onClick={this.handleClose}>
+            Close modal
+          </button>
         </div>
       </dialog>
     );
