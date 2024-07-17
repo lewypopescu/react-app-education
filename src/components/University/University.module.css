@@ -38,6 +38,17 @@
     justify-content: space-between;
 }
 
+.description {
+    background: #fff;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 32px;
+}
+
 .description > * {
     padding: 32px;
 }

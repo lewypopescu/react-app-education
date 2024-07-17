@@ -1,16 +1,26 @@
 .button {
-    font-size: 16px;
-    outline: none;
+    align-items: center;
+    border: none;
     color: white;
+    cursor: pointer;
+    display: flex;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 8px;
+    line-height: 24px;
+    max-width: fit-content;
+    letter-spacing: 1.25px;
+    outline: none;
+    padding: 6px 16px;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .primary {
-    background: black;
-    color: white;
+    background: #FF6B0A;
 }
 
-/* Button_danger_sbdsd*/
-.danger {
-    background: green;
-    color: white;
+.secondary {
+    background: #BDBDBD;
 }

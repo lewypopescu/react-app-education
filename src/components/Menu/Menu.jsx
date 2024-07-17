@@ -2,12 +2,7 @@ import MenuItem from '../MenuItem';
 import PropTypes from 'prop-types';
 import './Menu.css'
 
-function Menu({ items, isVisible = true }) {
-  // const { items, title, isVisible } = props;
-
-  if (!isVisible) {
-    return <button>{'<'}</button>;
-  }
+function Menu({ items }) {
 
   return (
     <ul className='sidebar-menu'>
@@ -17,10 +12,6 @@ function Menu({ items, isVisible = true }) {
     </ul>
   );
 }
-
-// const Menu = () => {
-//     return <div>Menu</div>
-// }
 
 Menu.propTypes = {
   items: PropTypes.array.isRequired,

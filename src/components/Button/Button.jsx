@@ -4,18 +4,14 @@ import styles from "./Button.module.css";
 
 function Button ({ variant = '', customStyles, handleClick, children }) {
     const getButtonClass = () => {
-        if (variant === 'icon') {
-            return `${styles.button} ${styles.primary}`;
+        if (variant === 'secondary') {
+            return `${styles.button} ${styles.secondary}`;
         }
 
-        if (variant === 'danger') {
-            return `${styles.button} ${styles.danger}`;
-        }
-
-        return `${styles.button}`;
+        return `${styles.button} ${styles.primary}`;
     }
 
-    return <button className={`${getButtonClass()} ${customStyles}`} onClick={handleClick}>{children}</button>
+    return <button className={`${getButtonClass()}`} onClick={handleClick}>{children}</button>
 }
 
 export default Button;
