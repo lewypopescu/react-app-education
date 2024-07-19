@@ -4,7 +4,12 @@ import Button from "../Button";
 import { Component } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import styles from "./TutorsList.module.css";
-import Input from "../common/Input/Input";
+import Input from "../common/Input";
+import axios from "axios";
+import Loading from "../common/Loading";
+import Alert from "../common/Alert";
+
+axios.defaults.baseURL = "http://localhost:3002";
 
 const INITIAL_FORM_STATE = {
   lastName: "",
@@ -16,6 +21,8 @@ const INITIAL_FORM_STATE = {
 
 const INITIAL_STATE = {
   tutors: [],
+  loading: false,
+  error: null,
   searchTerm: "",
   isFormVisible: false,
   newTutor: { ...INITIAL_FORM_STATE },
@@ -32,14 +39,27 @@ class TutorsList extends Component {
     this.getTutorsCount = this.getTutorsCount.bind(this);
   }
 
-  componentDidMount() {
-    const data = JSON.parse(localStorage.getItem("tutors"));
-
-    this.setState({ tutors: data });
+  async componentDidMount() {
+    try {
+      this.setState({ loading: true });
+      const response = await axios.get("/tutors");
+      this.setState({ tutors: response.data, error: null });
+    } catch (error) {
+      console.error(error.message);
+      this.setState({ error: "Lista de tutori nu a putut fi obținută." });
+    } finally {
+      this.setState({ loading: false });
+    }
   }
 
   renderList(items) {
-    return items.map((item) => <Tutor key={item.phone} item={item} />);
+    return items.map((item) => (
+      <Tutor
+        key={item.phone}
+        item={item}
+        handleDelete={() => this.deleteTutor(item.id)}
+      />
+    ));
   }
 
   toggleForm = () => {
@@ -59,18 +79,41 @@ class TutorsList extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    const newTutor = this.state.newTutor;
-
-    this.setState({
-      ...this.state,
-      tutors: [...this.state.tutors, newTutor],
-      newTutor: { ...INITIAL_FORM_STATE },
-    });
+    this.addTutor();
   };
 
   getTutorsCount = (tutors) => {
     return tutors.length;
   };
+
+  async deleteTutor(id) {
+    try {
+      await axios.delete(`/tutors/${id}`);
+
+      this.setState({
+        ...this.state,
+        tutors: this.state.tutors.filter((el) => el.id !== id),
+      });
+    } catch (error) {
+      this.setState({ error: "Tutorele nu a putut fi sters." });
+    }
+  }
+
+  async addTutor() {
+    const newTutor = this.state.newTutor;
+
+    try {
+      const response = await axios.post("/tutors", newTutor);
+
+      this.setState({
+        ...this.state,
+        tutors: [...this.state.tutors, response.data],
+        newTutor: { ...INITIAL_FORM_STATE },
+      });
+    } catch (error) {
+      this.setState({ error: "Tutorele nu a putut fi adaugat." });
+    }
+  }
 
   render() {
     const filteredTutorsList = this.state.tutors.filter((tutor) => {
@@ -94,6 +137,8 @@ class TutorsList extends Component {
           }
         />
         <div className={styles.list}>
+          {this.state.loading && <Loading />}
+          {this.state.error && <Alert message={this.state.error} />}
           {this.renderList(filteredTutorsList)}
           <p>
             Number of tutors found {this.getTutorsCount(filteredTutorsList)}

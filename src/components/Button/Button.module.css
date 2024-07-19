@@ -1,26 +1,32 @@
 .button {
-    align-items: center;
-    border: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-weight: 700;
-    gap: 8px;
-    line-height: 24px;
-    max-width: fit-content;
-    letter-spacing: 1.25px;
-    outline: none;
-    padding: 6px 16px;
-    text-align: center;
-    text-transform: uppercase;
+  align-items: center;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 8px;
+  line-height: 24px;
+  max-width: fit-content;
+  letter-spacing: 1.25px;
+  outline: none;
+  padding: 6px 16px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .primary {
-    background: #FF6B0A;
+  background: #ff6b0a;
 }
 
 .secondary {
-    background: #BDBDBD;
+  background: #bdbdbd;
+}
+
+.icon {
+  background: transparent;
+  padding: 8px;
+  color: #757575;
 }

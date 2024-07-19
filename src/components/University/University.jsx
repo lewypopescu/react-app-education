@@ -14,18 +14,24 @@ class University extends Component {
     this.state = {
       isModalVisible: false,
     };
-
-    //this.handleOpenEditModal = this.handleOpenEditModal.bind(this);
   }
 
-  handleOpenEditModal = () => {
+  toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
   render() {
     return (
       <section className="section">
-        <Modal isVisible={this.state.isModalVisible} />
+        <Modal
+          isOpen={this.state.isModalVisible}
+          handleClose={() => {
+            this.toggleModal();
+          }}
+          header={"University"}
+        >
+          Add edit form
+        </Modal>
         <div className={styles.university}>
           <div className={styles.info}>
             <Paper>
@@ -37,10 +43,7 @@ class University extends Component {
               <p>university</p>
               <h3 className={styles.title}>MIT</h3>
               <div className={styles.controls}>
-                <button
-                  className="button-icon"
-                  onClick={this.handleOpenEditModal}
-                >
+                <button className="button-icon" onClick={this.toggleModal}>
                   <HiPencilAlt />
                 </button>
                 <button className="button-icon">

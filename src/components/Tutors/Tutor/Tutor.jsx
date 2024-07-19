@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './Tutor.module.css';
+import React from "react";
+import PropTypes from "prop-types";
+import styles from "./Tutor.module.css";
+import Button from "../TutorsList";
+import { FaTrash } from "react-icons/fa";
 
-function Tutor({ item }) {
+function Tutor({ item, handleDelete }) {
   const name = `${item.firstName} ${item.lastName}`;
 
   return (
@@ -14,6 +16,11 @@ function Tutor({ item }) {
         <span>{item.city}</span>
       </div>
       <div>{item?.options}</div>
+      <span>
+        <Button variant="icon" handleClick={handleDelete}>
+          <FaTrash />
+        </Button>
+      </span>
     </div>
   );
 }
