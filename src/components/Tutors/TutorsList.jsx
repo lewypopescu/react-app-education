@@ -46,7 +46,7 @@ class TutorsList extends Component {
       this.setState({ tutors: response.data, error: null });
     } catch (error) {
       console.error(error.message);
-      this.setState({ error: "Lista de tutori nu a putut fi obținută." });
+      this.setState({ error: "Error" });
     } finally {
       this.setState({ loading: false });
     }
@@ -95,7 +95,7 @@ class TutorsList extends Component {
         tutors: this.state.tutors.filter((el) => el.id !== id),
       });
     } catch (error) {
-      this.setState({ error: "Tutorele nu a putut fi sters." });
+      this.setState({ error: "Error" });
     }
   }
 
@@ -111,7 +111,7 @@ class TutorsList extends Component {
         newTutor: { ...INITIAL_FORM_STATE },
       });
     } catch (error) {
-      this.setState({ error: "Tutorele nu a putut fi adaugat." });
+      this.setState({ error: "Error" });
     }
   }
 
