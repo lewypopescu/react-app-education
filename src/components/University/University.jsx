@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import Paper from "../Paper";
 import { HiPencilAlt, HiTrash } from "react-icons/hi";
 
