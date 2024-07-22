@@ -1,30 +1,16 @@
 import Menu from '../Menu';
 import { HiBookOpen, HiAcademicCap } from 'react-icons/hi';
 import './Sidebar.css';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import SidebarToggle from './SidebarToggle/SidebarToggle';
 import { clsx } from 'clsx';
 
-class Sidebar extends Component {
-  constructor(props) {
-    super(props);
+import React from 'react'
 
-    this.state = {
-      isMenuVisible: true,
-    };
+export default function Sidebar(props) {
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  componentDidMount() {
-    setTimeout(() => console.log('Am inceput numaratoarea', 1000))
-  }
-  
-  componentWillUnmount() {
-    clearTimeout();
-  }
-
-  menuConfig = [
+  const menuConfig = [
     {
       icon: <HiBookOpen />,
       name: 'University',
@@ -35,27 +21,28 @@ class Sidebar extends Component {
     },
   ];
 
-  handleClick() {
-    this.setState({
-      isSidebarExpanded: !this.state.isSidebarExpanded,
-    });
+  useEffect(() => {
+    setTimeout(() => console.log('Am inceput numaratoarea', 1000))
+
+    return () => {
+      clearTimeout();
+    }
+  }, [])
+
+  function handleClick() {
+    setIsSidebarExpanded(!isSidebarExpanded);
   }
 
-  render() {
-    const menuConfig = this.menuConfig;
-    return (
-      <aside className={clsx("sidebar", !this.state.isSidebarExpanded && "sidebar--collapsed")}>
-        <SidebarToggle handleClick={this.handleClick} isExpanded={this.state.isSidebarExpanded} />
+  return (
+    <aside className={clsx("sidebar", !isSidebarExpanded && "sidebar--collapsed")}>
+      <SidebarToggle handleClick={handleClick} isExpanded={isSidebarExpanded} />
 
-        {this.state.isSidebarExpanded && (
-          <>
-            <div className="sidebar-brand"></div>
-            <Menu items={menuConfig} />
-          </>
-        )}
-      </aside>
-    );
-  }
+      {isSidebarExpanded && (
+        <>
+          <div className="sidebar-brand"></div>
+          <Menu items={menuConfig} />
+        </>
+      )}
+    </aside>
+  );
 }
-
-export default Sidebar;

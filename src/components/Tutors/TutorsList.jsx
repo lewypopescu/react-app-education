@@ -1,15 +1,17 @@
 import PropTypes from "prop-types";
 import Tutor from "./Tutor";
 import Button from "../Button";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import styles from "./TutorsList.module.css";
-import Input from "../common/Input";
+
 import axios from "axios";
+
+import Input from "../common/Input";
 import Loading from "../common/Loading";
 import Alert from "../common/Alert";
 
-axios.defaults.baseURL = "http://localhost:3002";
+axios.defaults.baseURL = "http://localhost:3001";
 
 const INITIAL_FORM_STATE = {
   lastName: "",
@@ -19,197 +21,172 @@ const INITIAL_FORM_STATE = {
   city: "",
 };
 
-const INITIAL_STATE = {
-  tutors: [],
-  loading: false,
-  error: null,
-  searchTerm: "",
-  isFormVisible: false,
-  newTutor: { ...INITIAL_FORM_STATE },
-};
+export default function TutorsList(props) {
+  const [tutors, setTutors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
 
-class TutorsList extends Component {
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("/tutors");
+        setTutors(response.data);
+        setError(null);
+      } catch (error) {
+        console.error(error.message);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-    this.state = { ...INITIAL_STATE };
-    this.toggleForm = this.toggleForm.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getTutorsCount = this.getTutorsCount.bind(this);
+  function toggleForm() {
+    setIsFormVisible(!isFormVisible);
   }
 
-  async componentDidMount() {
-    try {
-      this.setState({ loading: true });
-      const response = await axios.get("/tutors");
-      this.setState({ tutors: response.data, error: null });
-    } catch (error) {
-      console.error(error.message);
-      this.setState({ error: "Error" });
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
-
-  renderList(items) {
+  function renderList(items) {
     return items.map((item) => (
       <Tutor
         key={item.phone}
         item={item}
-        handleDelete={() => this.deleteTutor(item.id)}
+        handleDelete={() => deleteTutor(item.id)}
       />
     ));
   }
 
-  toggleForm = () => {
-    this.setState({ isFormVisible: !this.state.isFormVisible });
-  };
-
-  handleChange = (evt) => {
+  function handleChange(evt) {
     const { name, value } = evt.target;
-    this.setState({
-      ...this.state,
-      newTutor: {
-        ...this.state.newTutor,
-        [name]: value,
-      },
+    setFormData({
+      ...formData,
+      [name]: value,
     });
-  };
+  }
 
-  handleSubmit = (evt) => {
+  function handleSubmit(evt) {
     evt.preventDefault();
-    this.addTutor();
-  };
 
-  getTutorsCount = (tutors) => {
+    addTutor();
+  }
+
+  function getTutorsCount(tutors) {
     return tutors.length;
-  };
+  }
 
-  async deleteTutor(id) {
+  async function deleteTutor(id) {
     try {
       await axios.delete(`/tutors/${id}`);
+      const data = tutors.filter((el) => el.id !== id);
 
-      this.setState({
-        ...this.state,
-        tutors: this.state.tutors.filter((el) => el.id !== id),
-      });
+      setTutors([...data]);
     } catch (error) {
-      this.setState({ error: "Error" });
+      setError(error.message);
     }
   }
 
-  async addTutor() {
-    const newTutor = this.state.newTutor;
+  async function addTutor() {
+    const data = formData;
 
     try {
-      const response = await axios.post("/tutors", newTutor);
+      const response = await axios.post("/tutors", data);
 
-      this.setState({
-        ...this.state,
-        tutors: [...this.state.tutors, response.data],
-        newTutor: { ...INITIAL_FORM_STATE },
-      });
+      setTutors([...tutors, response.data]);
+      setFormData({ ...INITIAL_FORM_STATE });
     } catch (error) {
-      this.setState({ error: "Error" });
+      setError(error.message);
     }
   }
 
-  render() {
-    const filteredTutorsList = this.state.tutors.filter((tutor) => {
-      const searchTerm = this.state.searchTerm;
-
-      return (
-        tutor.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tutor.lastName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-
+  const filteredTutorsList = tutors.filter((tutor) => {
     return (
-      <section className="section">
-        <h2 className="h2">Tutors</h2>
-        <input
-          type="text"
-          name="searchTerm"
-          value={this.state.searchTerm}
-          onChange={(e) =>
-            this.setState({ ...this.state, searchTerm: e.target.value })
-          }
-        />
-        <div className={styles.list}>
-          {this.state.loading && <Loading />}
-          {this.state.error && <Alert message={this.state.error} />}
-          {this.renderList(filteredTutorsList)}
-          <p>
-            Number of tutors found {this.getTutorsCount(filteredTutorsList)}
-          </p>
-          <p>Number of tutors {this.getTutorsCount(this.state.tutors)} </p>
-        </div>
-
-        {this.state.isFormVisible && (
-          <form className={styles.form} onSubmit={this.handleSubmit}>
-            <h3>Adding a tutor</h3>
-            <Input
-              label="Surname"
-              name="firstName"
-              type="text"
-              value={this.state.newTutor.firstName}
-              handleChange={this.handleChange}
-              required={true}
-            />
-
-            <Input
-              label="Name"
-              name="lastName"
-              type="text"
-              value={this.state.newTutor.lastName}
-              handleChange={this.handleChange}
-              required={true}
-            />
-
-            <Input
-              label="Phone"
-              name="phone"
-              type="tel"
-              value={this.state.newTutor.phone}
-              handleChange={this.handleChange}
-              required={true}
-            />
-
-            <Input
-              label="Email"
-              name="email"
-              type="email"
-              value={this.state.newTutor.email}
-              handleChange={this.handleChange}
-              required={true}
-            />
-
-            <Input
-              label="City"
-              name="city"
-              type="text"
-              value={this.state.newTutor.city}
-              handleChange={this.handleChange}
-              required={true}
-            />
-
-            <Button type="submit" handleClick={() => {}}>
-              Invite
-            </Button>
-          </form>
-        )}
-
-        <Button handleClick={this.toggleForm}>
-          <FaPlusCircle />
-          Add Tutor
-        </Button>
-      </section>
+      tutor.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tutor.lastName.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }
-}
+  });
 
-export default TutorsList;
+  return (
+    <section className="section">
+      <h2 className="h2">Tutors</h2>
+      <input
+        type="text"
+        name="searchTerm"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <div className={styles.list}>
+        {loading && <Loading />}
+        {error && <Alert message={error} />}
+        {renderList(filteredTutorsList)}
+        <p>Number of tutors found {getTutorsCount(filteredTutorsList)}</p>
+        <p>Number of tutors {getTutorsCount(tutors)} </p>
+      </div>
+
+      {isFormVisible && (
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <h3>Adding a tutor</h3>
+          <Input
+            label="Surname"
+            name="firstName"
+            type="text"
+            value={formData.firstName}
+            handleChange={handleChange}
+            required={true}
+          />
+
+          <Input
+            label="Name"
+            name="lastName"
+            type="text"
+            value={formData.lastName}
+            handleChange={handleChange}
+            required={true}
+          />
+
+          <Input
+            label="Phone"
+            name="phone"
+            type="tel"
+            value={formData.phone}
+            handleChange={handleChange}
+            required={true}
+          />
+
+          <Input
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
+            handleChange={handleChange}
+            required={true}
+          />
+
+          <Input
+            label="City"
+            name="city"
+            type="text"
+            value={formData.city}
+            handleChange={handleChange}
+            required={true}
+          />
+
+          <Button type="submit" handleClick={() => {}}>
+            Invite
+          </Button>
+        </form>
+      )}
+
+      <Button handleClick={toggleForm}>
+        <FaPlusCircle />
+        Add Tutor
+      </Button>
+    </section>
+  );
+}
 
 TutorsList.propTypes = {
   tutors: PropTypes.array,
