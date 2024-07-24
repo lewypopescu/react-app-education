@@ -1,0 +1,91 @@
+.list {
+  background: white;
+  padding: 16px;
+  border: 2px solid #007bff; /* Border albastru */
+  border-radius: 8px; /* Margini rotunjite */
+}
+
+.form {
+  background: #f8f9fa;
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+  margin: 16px 0;
+  padding: 16px;
+  border: 2px solid #007bff; /* Border albastru */
+  border-radius: 8px; /* Margini rotunjite */
+}
+
+.form h3 {
+  margin: 0;
+  color: #007bff; /* Text albastru */
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+  border-bottom: 1px solid #dee2e6;
+  padding: 8px 0;
+}
+
+.item + .item {
+  margin-top: 16px;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.options button {
+  background: transparent;
+  border: none;
+  color: #007bff; /* Icon albastru */
+  cursor: pointer;
+}
+
+button {
+  background-color: #007bff; /* Fundal buton albastru */
+  color: white; /* Text alb */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Albastru mai închis la hover */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+  border-color: #007bff; /* Border albastru la focus */
+  outline: none;
+}
+
+input[type="submit"] {
+  background-color: #007bff; /* Fundal buton submit albastru */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3; /* Albastru mai închis la hover */
+}

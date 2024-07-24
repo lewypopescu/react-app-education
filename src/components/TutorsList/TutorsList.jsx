@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
-import Tutor from "./Tutor";
-import Button from "../Button";
+import Button from "../Button/Button";
 import { useState, useEffect } from "react";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle, FaTrash } from "react-icons/fa";
 import styles from "./TutorsList.module.css";
-
-import axios from "axios";
-
 import Input from "../common/Input";
+import axios from "axios";
 import Loading from "../common/Loading";
 import Alert from "../common/Alert";
+import useToggle from "../../hooks/useToggle";
+import { useDebounce } from "@uidotdev/usehooks";
+import React from "react";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = "http://localhost:3000";
 
 const INITIAL_FORM_STATE = {
   lastName: "",
@@ -26,7 +26,9 @@ export default function TutorsList(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
+  const [isFormVisible, toggleForm] = useToggle(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
 
   useEffect(() => {
@@ -46,17 +48,21 @@ export default function TutorsList(props) {
     fetchData();
   }, []);
 
-  function toggleForm() {
-    setIsFormVisible(!isFormVisible);
-  }
-
   function renderList(items) {
     return items.map((item) => (
-      <Tutor
-        key={item.phone}
-        item={item}
-        handleDelete={() => deleteTutor(item.id)}
-      />
+      <div key={item.phone} className={styles.item}>
+        <div>{`${item.firstName} ${item.lastName}`}</div>
+        <div className={styles.address}>
+          <span>{item.email}</span>
+          <span>{item.phone}</span>
+          <span>{item.city}</span>
+        </div>
+        <div className={styles.options}>
+          <button onClick={() => deleteTutor(item.id)}>
+            <FaTrash />
+          </button>
+        </div>
+      </div>
     ));
   }
 
@@ -104,8 +110,10 @@ export default function TutorsList(props) {
 
   const filteredTutorsList = tutors.filter((tutor) => {
     return (
-      tutor.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tutor.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+      tutor.firstName
+        .toLowerCase()
+        .includes(debouncedSearchTerm.toLowerCase()) ||
+      tutor.lastName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
   });
 

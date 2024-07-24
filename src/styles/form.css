@@ -1,3 +1,4 @@
+/* FORM STYLES */
 .form {
   background: white;
   display: flex;
@@ -34,7 +35,7 @@
 }
 
 .form label:has(*:required) span::after {
-  content: "*";
+  content: '*';
   color: #e53935;
 }
 
