@@ -9,7 +9,7 @@ import React from "react";
 import useToggle from "../../hooks/useToggle";
 
 export default function Sidebar(props) {
-  const [isSidebarExpanded, handleClick] = useToggle(true);
+  const [isSidebarExpanded, handleClick] = useToggle(false);
 
   const menuConfig = [
     {
