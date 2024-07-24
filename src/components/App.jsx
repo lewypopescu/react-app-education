@@ -3,7 +3,6 @@ import TutorsList from "./TutorsList";
 import University from "./University/University";
 import data from "../utils/data.json";
 import { useEffect } from "react";
-// import News from './News';
 
 import React from "react";
 

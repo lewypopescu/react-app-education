@@ -130,8 +130,8 @@ export default function TutorsList(props) {
         {loading && <Loading />}
         {error && <Alert message={error} />}
         {renderList(filteredTutorsList)}
-        <p>Number of tutors found {getTutorsCount(filteredTutorsList)}</p>
-        <p>Number of tutors {getTutorsCount(tutors)} </p>
+        <p>Number of tutors found: {getTutorsCount(filteredTutorsList)}</p>
+        <p>Number of tutors: {getTutorsCount(tutors)} </p>
       </div>
 
       {isFormVisible && (

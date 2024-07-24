@@ -1,21 +1,20 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import styles from './Modal.module.css';
-import { HiX } from 'react-icons/hi';
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import styles from "./Modal.module.css";
+import { HiX } from "react-icons/hi";
 
 function Modal({ isOpen, handleClose, header, children }) {
   useEffect(() => {
     function handleEscape(event) {
-      if (event.key === 'Escape') {
-        console.log('Escape a fost apasat');
+      if (event.key === "Escape") {
         handleClose();
       }
     }
 
-    document.addEventListener('keydown', handleEscape, false);
+    document.addEventListener("keydown", handleEscape, false);
 
     return () => {
-      document.removeEventListener('keydown', handleEscape, false);
+      document.removeEventListener("keydown", handleEscape, false);
     };
   }, [handleClose]);
 
