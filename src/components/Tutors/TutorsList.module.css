@@ -1,0 +1,17 @@
+.list {
+  background: white;
+  padding: 16px;
+}
+
+.form {
+  background: white;
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+  margin: 16px 0;
+  padding: 16px;
+}
+
+.form h3 {
+  margin: 0;
+}

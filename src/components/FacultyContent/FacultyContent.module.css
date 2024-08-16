@@ -1,0 +1,14 @@
+.title {
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+
+.linksContainer {
+  display: flex;
+  gap: 70px;
+  color: white;
+  font-size: 18px;
+  background-color: rgba(22, 29, 42, 1);
+  padding: 10px 20px;
+  margin-bottom: 40px;
+}

@@ -1,17 +1,26 @@
-import PropTypes from "prop-types";
-import Button from "../Button/Button";
-import { useState, useEffect } from "react";
-import { FaPlusCircle, FaTrash } from "react-icons/fa";
-import styles from "./TutorsList.module.css";
-import Input from "../common/Input";
-import axios from "axios";
-import Loading from "../common/Loading";
-import Alert from "../common/Alert";
-import useToggle from "../../hooks/useToggle";
-import { useDebounce } from "@uidotdev/usehooks";
 import React from "react";
+import { useState, useEffect } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { useSelector, useDispatch } from "react-redux";
 
-axios.defaults.baseURL = "http://localhost:3000";
+import { FaPlusCircle } from "react-icons/fa";
+import PropTypes from "prop-types";
+
+import styles from "./TutorsList.module.css";
+
+import Input from "../common/Input/Input";
+import Tutor from "./Tutor";
+import Button from "../Button/Button";
+import Loading from "../common/Loading/Loading";
+import Alert from "../common/Alert/Alert";
+
+import useToggle from "../../hooks/useToggle";
+import {
+  getTutors,
+  getTutorsError,
+  getTutorsLoading,
+} from "../../redux/selectors";
+import { fetchTutors, addTutor, deleteTutor } from "../../redux/operations";
 
 const INITIAL_FORM_STATE = {
   lastName: "",
@@ -22,47 +31,32 @@ const INITIAL_FORM_STATE = {
 };
 
 export default function TutorsList(props) {
-  const [tutors, setTutors] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [tutors, setTutors] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const [isFormVisible, toggleForm] = useToggle(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
 
+  const tutors = useSelector(getTutors);
+  const loading = useSelector(getTutorsLoading);
+  const error = useSelector(getTutorsError);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("/tutors");
-        setTutors(response.data);
-        setError(null);
-      } catch (error) {
-        console.error(error.message);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchTutors());
+  }, [dispatch]);
 
   function renderList(items) {
     return items.map((item) => (
-      <div key={item.phone} className={styles.item}>
-        <div>{`${item.firstName} ${item.lastName}`}</div>
-        <div className={styles.address}>
-          <span>{item.email}</span>
-          <span>{item.phone}</span>
-          <span>{item.city}</span>
-        </div>
-        <div className={styles.options}>
-          <button onClick={() => deleteTutor(item.id)}>
-            <FaTrash />
-          </button>
-        </div>
-      </div>
+      <Tutor
+        key={item.phone}
+        item={item}
+        handleDelete={() => dispatch(deleteTutor(item.id))}
+      />
     ));
   }
 
@@ -76,36 +70,14 @@ export default function TutorsList(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
-    addTutor();
+    const data = formData;
+    dispatch(addTutor(data));
+    setFormData({ ...INITIAL_FORM_STATE });
+    toggleForm();
   }
 
   function getTutorsCount(tutors) {
     return tutors.length;
-  }
-
-  async function deleteTutor(id) {
-    try {
-      await axios.delete(`/tutors/${id}`);
-      const data = tutors.filter((el) => el.id !== id);
-
-      setTutors([...data]);
-    } catch (error) {
-      setError(error.message);
-    }
-  }
-
-  async function addTutor() {
-    const data = formData;
-
-    try {
-      const response = await axios.post("/tutors", data);
-
-      setTutors([...tutors, response.data]);
-      setFormData({ ...INITIAL_FORM_STATE });
-    } catch (error) {
-      setError(error.message);
-    }
   }
 
   const filteredTutorsList = tutors.filter((tutor) => {
@@ -130,8 +102,8 @@ export default function TutorsList(props) {
         {loading && <Loading />}
         {error && <Alert message={error} />}
         {renderList(filteredTutorsList)}
-        <p>Number of tutors found: {getTutorsCount(filteredTutorsList)}</p>
-        <p>Number of tutors: {getTutorsCount(tutors)} </p>
+        <p>Number of tutors found {getTutorsCount(filteredTutorsList)}</p>
+        <p>Number of tutors {getTutorsCount(tutors)} </p>
       </div>
 
       {isFormVisible && (

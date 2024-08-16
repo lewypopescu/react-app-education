@@ -27,7 +27,7 @@
 }
 
 .closeBtn {
-  background: black;
+  background: transparent;
   outline: none;
   border: none;
   position: absolute;
@@ -42,7 +42,7 @@
 }
 
 .closeBtn:hover {
-  background: #dedede;
+  background-color: #009dff;
 }
 
 .content {

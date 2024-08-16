@@ -4,12 +4,13 @@ import "./Sidebar.css";
 import { useEffect } from "react";
 import SidebarToggle from "./SidebarToggle/SidebarToggle";
 import { clsx } from "clsx";
+import MenuItem from "../MenuItem/MenuItem";
 
 import React from "react";
 import useToggle from "../../hooks/useToggle";
 
 export default function Sidebar(props) {
-  const [isSidebarExpanded, handleClick] = useToggle(false);
+  const [isSidebarExpanded, handleClick] = useToggle(true);
 
   const menuConfig = [
     {
@@ -22,14 +23,6 @@ export default function Sidebar(props) {
     },
   ];
 
-  useEffect(() => {
-    setTimeout(() => console.log("Start", 1000));
-
-    return () => {
-      clearTimeout();
-    };
-  }, []);
-
   return (
     <aside
       className={clsx("sidebar", !isSidebarExpanded && "sidebar--collapsed")}
@@ -39,7 +32,11 @@ export default function Sidebar(props) {
       {isSidebarExpanded && (
         <>
           <div className="sidebar-brand"></div>
-          <Menu items={menuConfig} />
+          <ul className="sidebar-menu">
+            {menuConfig.map((el, index) => {
+              return <MenuItem key={index} item={el} isActive={index === 0} />;
+            })}
+          </ul>
         </>
       )}
     </aside>

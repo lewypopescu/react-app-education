@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import Paper from "../Paper";
 import { HiPencilAlt, HiTrash } from "react-icons/hi";
+
 import styles from "./University.module.css";
+
+import Paper from "../Paper";
 import Modal from "../Modal/Modal";
+
 import schoolImage from "../../images/School1.png";
 
 export default function University() {
@@ -16,11 +19,14 @@ export default function University() {
     <section className="section">
       <Modal
         isOpen={isModalVisible}
-        handleClose={toggleModal}
-        header={{ icon: <HiPencilAlt />, label: "hello" }}
+        handleClose={() => {
+          toggleModal();
+        }}
+        header={"University"}
       >
         Add edit form
       </Modal>
+
       <div className={styles.university}>
         <div className={styles.info}>
           <Paper>
@@ -29,7 +35,7 @@ export default function University() {
               src={schoolImage}
               alt="School"
             />
-            <p>First University</p>
+            <p>university</p>
             <h3 className={styles.title}>MIT</h3>
             <div className={styles.controls}>
               <button className="button-icon" onClick={toggleModal}>
@@ -41,6 +47,7 @@ export default function University() {
             </div>
           </Paper>
         </div>
+
         <div className={styles.description}>
           Experience, a concentration of knowledge and the ability to avoid most
           recruiting mistakes. We know what most local and foreign companies

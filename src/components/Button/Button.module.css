@@ -18,13 +18,25 @@
 }
 
 .primary {
-  background: #0912c4;
+  background: #0916d4;
 }
+
+.primary:hover {
+  background-color: #009dff;
+  color: #000000;
+}
+
 .secondary {
-  background: #bdbdbd;
+  background: #0916d4;
 }
+
+.secondary:hover {
+  background-color: #009dff;
+  color: #000000;
+}
+
 .icon {
   background: transparent;
-  padding: 8px;
-  color: #e01a1a;
+  padding: 9px;
+  color: #d40909;
 }

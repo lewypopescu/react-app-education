@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-function Button({ variant = "", handleClick, children }) {
+function Button({ variant = "", customStyles, handleClick, children }) {
   const getButtonClass = () => {
     if (variant === "secondary") {
       return `${styles.button} ${styles.secondary}`;

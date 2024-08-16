@@ -1,3 +1,3 @@
-import Input from "./Input";
+import Input from "./Alert";
 
 export default Input;

@@ -17,11 +17,13 @@
 
 .sidebar__menu-item:hover,
 .sidebar__menu-item:focus {
-  color: #0912c4;
+  color: #009dff;
 }
+
 .sidebar__menu-item svg {
-  color: #0912c4;
+  color: #0916d4;
 }
+
 .sidebar__menu-item--active {
-  color: #0912c4;
+  color: #0916d4;
 }
