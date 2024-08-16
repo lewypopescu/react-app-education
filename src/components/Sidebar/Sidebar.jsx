@@ -1,12 +1,12 @@
-import Menu from "../Menu";
+import React from "react";
+
+import { clsx } from "clsx";
 import { HiBookOpen, HiAcademicCap } from "react-icons/hi";
 import "./Sidebar.css";
-import { useEffect } from "react";
+
 import SidebarToggle from "./SidebarToggle/SidebarToggle";
-import { clsx } from "clsx";
 import MenuItem from "../MenuItem/MenuItem";
 
-import React from "react";
 import useToggle from "../../hooks/useToggle";
 
 export default function Sidebar(props) {
