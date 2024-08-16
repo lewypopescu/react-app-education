@@ -1,13 +1,30 @@
 {
   "files": {
-    "main.css": "/react-app-education/static/css/main.0f47fc97.css",
-    "main.js": "/react-app-education/static/js/main.6b6adc01.js",
+    "main.css": "/react-app-education/static/css/main.37a59570.css",
+    "main.js": "/react-app-education/static/js/main.287186e5.js",
+    "static/css/158.3843dbca.chunk.css": "/react-app-education/static/css/158.3843dbca.chunk.css",
+    "static/js/158.76017f2d.chunk.js": "/react-app-education/static/js/158.76017f2d.chunk.js",
+    "static/css/636.4cd47a91.chunk.css": "/react-app-education/static/css/636.4cd47a91.chunk.css",
+    "static/js/636.fc88f1b5.chunk.js": "/react-app-education/static/js/636.fc88f1b5.chunk.js",
+    "static/css/300.50f2e670.chunk.css": "/react-app-education/static/css/300.50f2e670.chunk.css",
+    "static/js/300.9a1585f4.chunk.js": "/react-app-education/static/js/300.9a1585f4.chunk.js",
+    "static/js/496.231e17a3.chunk.js": "/react-app-education/static/js/496.231e17a3.chunk.js",
+    "static/js/462.42d0425b.chunk.js": "/react-app-education/static/js/462.42d0425b.chunk.js",
+    "static/media/error-404svg.svg": "/react-app-education/static/media/error-404svg.a35d6f1908cf15fbd5a68f279a5f52d8.svg",
     "index.html": "/react-app-education/index.html",
-    "main.0f47fc97.css.map": "/react-app-education/static/css/main.0f47fc97.css.map",
-    "main.6b6adc01.js.map": "/react-app-education/static/js/main.6b6adc01.js.map"
+    "main.37a59570.css.map": "/react-app-education/static/css/main.37a59570.css.map",
+    "main.287186e5.js.map": "/react-app-education/static/js/main.287186e5.js.map",
+    "158.3843dbca.chunk.css.map": "/react-app-education/static/css/158.3843dbca.chunk.css.map",
+    "158.76017f2d.chunk.js.map": "/react-app-education/static/js/158.76017f2d.chunk.js.map",
+    "636.4cd47a91.chunk.css.map": "/react-app-education/static/css/636.4cd47a91.chunk.css.map",
+    "636.fc88f1b5.chunk.js.map": "/react-app-education/static/js/636.fc88f1b5.chunk.js.map",
+    "300.50f2e670.chunk.css.map": "/react-app-education/static/css/300.50f2e670.chunk.css.map",
+    "300.9a1585f4.chunk.js.map": "/react-app-education/static/js/300.9a1585f4.chunk.js.map",
+    "496.231e17a3.chunk.js.map": "/react-app-education/static/js/496.231e17a3.chunk.js.map",
+    "462.42d0425b.chunk.js.map": "/react-app-education/static/js/462.42d0425b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0f47fc97.css",
-    "static/js/main.6b6adc01.js"
+    "static/css/main.37a59570.css",
+    "static/js/main.287186e5.js"
   ]
 }
