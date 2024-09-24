@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
-
-import style from "./Modal.module.css";
+import React, { useEffect } from 'react';
+import style from './Modal.module.css';
 
 export default function Modal({ isOpen, onClose, children }) {
-  const handleKeyDown = (event) => {
-    if (event.key === "Escape") {
+  const handleKeyDown = event => {
+    if (event.key === 'Escape') {
       onClose();
     }
   };
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, handleKeyDown]);
 
   if (!isOpen) {
     return null;
