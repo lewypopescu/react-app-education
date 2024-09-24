@@ -20,7 +20,7 @@ function Container({ children }) {
 }
 
 Container.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
 };
 
 export default Container;

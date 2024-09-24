@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import styles from "./Button.module.css";
+import styles from './Button.module.css';
 
-function Button({ variant = "", customStyles, handleClick, children }) {
+function Button({ variant = '', handleClick, children }) {
   const getButtonClass = () => {
-    if (variant === "secondary") {
+    if (variant === 'secondary') {
       return `${styles.button} ${styles.secondary}`;
     }
 
-    if (variant === "icon") {
+    if (variant === 'icon') {
       return `${styles.button} ${styles.icon}`;
     }
 

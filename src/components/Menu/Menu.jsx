@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import "./Menu.css";
+import './Menu.css';
 
-import MenuItem from "../Menu/";
+import MenuItem from '../Menu/';
 
 function Menu({ items }) {
   return (
@@ -15,7 +15,7 @@ function Menu({ items }) {
 }
 
 Menu.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
   isVisible: PropTypes.bool,
 };
 
