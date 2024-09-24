@@ -1,25 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL_TUTORS = "https://66bf2a1942533c4031454600.mockapi.io/";
-const BASE_URL_AUTH = "https://connections-api.goit.global/";
+const BASE_URL_TUTORS = 'https://66bf2a1942533c4031454600.mockapi.io/';
 
 const apiT = axios.create({
   baseURL: BASE_URL_TUTORS,
 });
 
-const apiA = axios.create({
-  baseURL: BASE_URL_AUTH,
-});
-
-const setAuthHeader = (token) => {
-  if (token) {
-    apiA.defaults.headers.common.Authorization = `Bearer ${token}`;
-  } else {
-    delete apiA.defaults.headers.common.Authorization;
-  }
-};
-
-const resourceApi = (resource) => {
+const resourceApi = resource => {
   return {
     getAll: async () => {
       try {
@@ -29,9 +16,9 @@ const resourceApi = (resource) => {
         throw error;
       }
     },
-    get: async (id) => {
+    get: async id => {
       if (!id) {
-        throw new Error("ID is required");
+        throw new Error('ID is required');
       }
       try {
         return await apiT.get(`${resource}/${id}`);
@@ -40,7 +27,7 @@ const resourceApi = (resource) => {
         throw error;
       }
     },
-    create: async (data) => {
+    create: async data => {
       try {
         return await apiT.post(`${resource}`, data);
       } catch (error) {
@@ -50,7 +37,7 @@ const resourceApi = (resource) => {
     },
     update: async (id, data) => {
       if (!id) {
-        throw new Error("ID is required for update");
+        throw new Error('ID is required for update');
       }
       try {
         return await apiT.put(`${resource}/${id}`, data);
@@ -59,9 +46,9 @@ const resourceApi = (resource) => {
         throw error;
       }
     },
-    delete: async (id) => {
+    delete: async id => {
       if (!id) {
-        throw new Error("ID is required for deletion");
+        throw new Error('ID is required for deletion');
       }
       try {
         return await apiT.delete(`${resource}/${id}`);
@@ -73,39 +60,7 @@ const resourceApi = (resource) => {
   };
 };
 
-const tutorsApi = resourceApi("tutors");
-const facultiesApi = resourceApi("faculties");
+const tutorsApi = resourceApi('tutors');
+const facultiesApi = resourceApi('faculties');
 
-const userApi = {
-  signup: async (data) => {
-    try {
-      const response = await apiA.post("/users/signup", data);
-      setAuthHeader(response.data.token);
-      return response;
-    } catch (error) {
-      console.error("Signup error:", error);
-      throw error;
-    }
-  },
-  login: async (data) => {
-    try {
-      const response = await apiA.post("/users/login", data);
-      setAuthHeader(response.data.token);
-      return response;
-    } catch (error) {
-      console.error("Login error:", error);
-      throw error;
-    }
-  },
-  logout: async () => {
-    try {
-      await apiA.post("/users/logout");
-      setAuthHeader(null);
-    } catch (error) {
-      console.error("Logout error:", error);
-      throw error;
-    }
-  },
-};
-
-export { tutorsApi, facultiesApi, userApi };
+export { tutorsApi, facultiesApi };

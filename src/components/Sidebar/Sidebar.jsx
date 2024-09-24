@@ -1,20 +1,20 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { clsx } from "clsx";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { clsx } from 'clsx';
 
-import { HiBookOpen, HiAcademicCap } from "react-icons/hi";
-import { BiSolidLogOut } from "react-icons/bi";
-import { FaUserCircle } from "react-icons/fa";
-import "./Sidebar.css";
+import { HiBookOpen, HiAcademicCap } from 'react-icons/hi';
+import { BiSolidLogOut } from 'react-icons/bi';
+import { FaUserCircle } from 'react-icons/fa';
+import './Sidebar.css';
 
-import SidebarToggle from "./SidebarToggle/SidebarToggle";
-import MenuItem from "../MenuItem";
+import SidebarToggle from './SidebarToggle/SidebarToggle';
+import MenuItem from '../MenuItem';
 
-import { logout } from "../../redux/auth/operations";
-import { useAuth } from "../../hooks/useAuth";
-import useToggle from "../../hooks/useToggle";
+import { logOut } from '../../redux/auth/operations';
+import { useAuth } from '../../hooks/useAuth';
+import useToggle from '../../hooks/useToggle';
 
-const MenuItemStyle = clsx("sidebar__menu-item");
+const MenuItemStyle = clsx('sidebar__menu-item');
 
 export default function Sidebar() {
   const [isSidebarExpanded, handleClick] = useToggle(true);
@@ -24,32 +24,32 @@ export default function Sidebar() {
   const menuConfigLogged = [
     {
       icon: <HiBookOpen />,
-      name: "University",
+      name: 'University',
     },
     {
       icon: <HiAcademicCap />,
-      name: "Faculties",
+      name: 'Faculties',
     },
   ];
 
   const menuConfigNotLogged = [
     {
-      name: "Login",
+      name: 'Login',
     },
     {
-      name: "Register",
+      name: 'Register',
     },
   ];
 
   const menuConfig = isLoggedIn ? menuConfigLogged : menuConfigNotLogged;
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logOut());
   };
 
   return (
     <aside
-      className={clsx("sidebar", !isSidebarExpanded && "sidebar--collapsed")}
+      className={clsx('sidebar', !isSidebarExpanded && 'sidebar--collapsed')}
     >
       <SidebarToggle handleClick={handleClick} isExpanded={isSidebarExpanded} />
 
@@ -62,7 +62,7 @@ export default function Sidebar() {
             })}
             {isLoggedIn && (
               <>
-                <li className={MenuItemStyle} style={{ marginTop: "auto" }}>
+                <li className={MenuItemStyle} style={{ marginTop: 'auto' }}>
                   {<FaUserCircle />} {user.name}
                 </li>
                 <li className={MenuItemStyle} onClick={handleLogout}>
