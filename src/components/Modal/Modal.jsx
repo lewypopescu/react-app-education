@@ -1,58 +1,36 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import styles from './Modal.module.css';
-import { HiX } from 'react-icons/hi';
+import React, { useEffect } from "react";
 
-function Modal({ isOpen, handleClose, header, children }) {
+import style from "./Modal.module.css";
+
+export default function Modal({ isOpen, onClose, children }) {
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  };
+
   useEffect(() => {
-    function handleEscape(event) {
-      if (event.key === 'Escape') {
-        console.log('Escape a fost apasat');
-        handleClose();
-      }
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
     }
 
-    document.addEventListener('keydown', handleEscape, false);
-
     return () => {
-      document.removeEventListener('keydown', handleEscape, false);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleClose]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) {
-    return;
+    return null;
   }
 
   return (
-    <div className={styles.overlay}>
-      <dialog className={styles.modal}>
-        <header className={`${styles.header} relative`}>
-          <button
-            className={styles.closeBtn}
-            onClick={() => {
-              handleClose();
-            }}
-          >
-            <HiX />
-          </button>
-        </header>
-        <main className={styles.content}>
-          <h1 className={styles.title}>
-            {header.icon}
-            {header.label}
-          </h1>
-          {children}
-        </main>
-      </dialog>
+    <div className={style.modalOverlay}>
+      <div className={style.modalContent}>
+        <button className={style.closeButton} onClick={onClose}>
+          &times;
+        </button>
+        {children}
+      </div>
     </div>
   );
 }
-
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  header: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
-};
-
-export default Modal;

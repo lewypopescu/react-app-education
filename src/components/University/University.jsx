@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { HiPencilAlt, HiTrash } from "react-icons/hi";
 
+import { HiPencilAlt, HiTrash } from "react-icons/hi";
 import styles from "./University.module.css";
 
+import Modal from "../Modal";
 import Paper from "../Paper";
-import Modal from "../Modal/Modal";
 
 import schoolImage from "../../images/School1.png";
 
@@ -35,7 +35,7 @@ export default function University() {
               src={schoolImage}
               alt="School"
             />
-            <p>university</p>
+            <p>University</p>
             <h3 className={styles.title}>MIT</h3>
             <div className={styles.controls}>
               <button className="button-icon" onClick={toggleModal}>

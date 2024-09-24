@@ -1,12 +1,13 @@
-import React from 'react';
-import clsx from 'clsx';
-import './MenuItem.css';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import clsx from "clsx";
+
+import "./MenuItem.css";
 
 export default function MenuItem({ item, isActive }) {
   const MenuItemStyle = clsx(
-    'sidebar__menu-item',
-    isActive && 'sidebar__menu-item--active'
+    "sidebar__menu-item",
+    isActive && "sidebar__menu-item--active"
   );
 
   return (

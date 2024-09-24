@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchTutors, addTutor, deleteTutor } from './operations';
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchTutors, addTutor, deleteTutor } from "./operations";
 
-const handlePending = state => {
+const handlePending = (state) => {
   state.isLoading = true;
   state.error = null;
 };
@@ -12,9 +12,9 @@ const handleRejected = (state, action) => {
 };
 
 const tutorsSlice = createSlice({
-  name: 'tutors',
+  name: "tutors",
   initialState: { items: [], isLoading: false, error: null },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchTutors.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -34,7 +34,7 @@ const tutorsSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.items = state.items.filter(
-          tutor => tutor.id !== action.payload.id
+          (tutor) => tutor.id !== action.payload.id
         );
       })
       .addCase(deleteTutor.pending, handlePending)

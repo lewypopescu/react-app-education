@@ -1,7 +1,12 @@
 .list {
-  background: white;
-  padding: 16px;
   margin: 16px 0;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.list > * {
+  flex-basis: 45%;
 }
 
 .form {

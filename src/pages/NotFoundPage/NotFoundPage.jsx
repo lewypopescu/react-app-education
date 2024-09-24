@@ -1,7 +1,9 @@
 import React from "react";
-import NotFoundImg from "../../images/error-404svg.svg";
-import style from "./NotFoundPage.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import style from "./NotFoundPage.module.css";
+
+import NotFoundImg from "../../images/icon/browser-error-404-icon.svg";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function NotFoundPage() {
   return (
     <div className={style.notFoundContainer}>
       <img className={style.notFoundImg} src={NotFoundImg} alt="Not Found" />
-      <p className={style.notFoundText}>Not Found</p>
+      <p className={style.notFoundText}>Page not exist</p>
       <button onClick={handleRedirect}>Back to Home Page!</button>
     </div>
   );

@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./Tutor.module.css";
-import Button from "../../Button/Button";
-import { FaTrash } from "react-icons/fa";
 
+import { FaTrash } from "react-icons/fa";
+import styles from "./Tutor.module.css";
+
+import Button from "../../Button";
 function Tutor({ item, handleDelete }) {
   const name = `${item.firstName} ${item.lastName}`;
 

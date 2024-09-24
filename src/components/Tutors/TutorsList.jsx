@@ -1,57 +1,57 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from 'react';
+// import axios from "axios"; z
+import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useDebounce } from '@uidotdev/usehooks';
 
-import { FaPlusCircle } from "react-icons/fa";
-import PropTypes from "prop-types";
+import { FaPlusCircle } from 'react-icons/fa';
+import styles from './TutorsList.module.css';
 
-import styles from "./TutorsList.module.css";
+import Tutor from './Tutor';
+import Button from '../Button';
+import Input from '../common/Input';
+import Loading from '../common/Loading';
+import Alert from '../common/Alert';
 
-import Input from "../common/Input/Input";
-import Tutor from "./Tutor";
-import Button from "../Button/Button";
-import Loading from "../common/Loading/Loading";
-import Alert from "../common/Alert/Alert";
+import useToggle from '../../hooks/useToggle';
 
-import useToggle from "../../hooks/useToggle";
 import {
-  getTutors,
-  getTutorsError,
-  getTutorsLoading,
-} from "../../redux/selectors";
-import { fetchTutors, addTutor, deleteTutor } from "../../redux/operations";
+  selectTutors,
+  selectTutorsError,
+  selectTutorsLoading,
+} from '../../redux/selectors';
+
+import { addTutor, deleteTutor } from '../../redux/operations';
+
+// axios.defaults.baseURL = "http://localhost:3001";
 
 const INITIAL_FORM_STATE = {
-  lastName: "",
-  firstName: "",
-  email: "",
-  phone: "",
-  city: "",
+  lastName: '',
+  firstName: '',
+  email: '',
+  phone: '',
+  city: '',
 };
 
-export default function TutorsList(props) {
+export default function TutorsList() {
   // const [tutors, setTutors] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+
+  const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const [isFormVisible, toggleForm] = useToggle(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
 
-  const tutors = useSelector(getTutors);
-  const loading = useSelector(getTutorsLoading);
-  const error = useSelector(getTutorsError);
+  const tutors = useSelector(selectTutors);
+  const loading = useSelector(selectTutorsLoading);
+  const error = useSelector(selectTutorsError);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchTutors());
-  }, [dispatch]);
-
   function renderList(items) {
-    return items.map((item) => (
+    return items.map(item => (
       <Tutor
         key={item.phone}
         item={item}
@@ -80,7 +80,7 @@ export default function TutorsList(props) {
     return tutors.length;
   }
 
-  const filteredTutorsList = tutors.filter((tutor) => {
+  const filteredTutorsList = tutors.filter(tutor => {
     return (
       tutor.firstName
         .toLowerCase()
@@ -96,7 +96,7 @@ export default function TutorsList(props) {
         type="text"
         name="searchTerm"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={e => setSearchTerm(e.target.value)}
       />
       <div className={styles.list}>
         {loading && <Loading />}

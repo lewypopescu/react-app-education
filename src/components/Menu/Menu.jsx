@@ -1,6 +1,8 @@
-import MenuItem from "../Menu";
 import PropTypes from "prop-types";
+
 import "./Menu.css";
+
+import MenuItem from "../Menu/";
 
 function Menu({ items }) {
   return (
