@@ -1,23 +1,275 @@
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.header p {
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section {
+  padding: 40px 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  background: linear-gradient(to bottom right, #1e3a8a, #60a5fa);
+}
+
+.subtitle {
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
+
 .list {
-  margin: 16px 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
+}
+
+.facultyCard {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.facultyCard:hover {
+  transform: translateY(-5px);
+}
+
+.facultyInfo h3 {
+  font-size: 20px;
+  margin-bottom: 9px;
+  color: #f0f0f0;
+}
+
+.facultyInfo h2 {
+  font-size: 19px;
+  color: #24394f;
+}
+
+.facultyInfo p {
+  font-size: 14px;
+  color: #f0f0f0;
+}
+
+.tagsSection {
+  margin-top: 10px;
+}
+
+.tagsContainer {
+  display: flex;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-.list > * {
-  flex-basis: 45%;
+.tag {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.removeTag {
+  color: red;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.removeTag:hover {
+  color: darkred;
+}
+
+.tag:hover {
+  background-color: #003d7f;
+  cursor: pointer;
+}
+
+.addTagButton {
+  margin-top: 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addTagButton:hover {
+  background-color: #003d7f;
+}
+
+.button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.buttonDelete {
+  padding: 8px 12px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.buttonDelete:hover {
+  background-color: #75230f;
 }
 
 .form {
-  background: white;
   display: flex;
-  gap: 32px;
   flex-direction: column;
-  margin: 16px 0;
-  padding: 16px;
+  gap: 15px;
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form h3 {
-  margin: 0;
+.form label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.addButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin-top: 9px;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalButton {
+  padding: 8px 16px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.modalButton:hover {
+  background-color: #75230f;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.cancelButton:hover {
+  background-color: #0056b3;
 }

@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchFaculties,
   addFaculty,
   updateFaculty,
   deleteFaculty,
-} from "./operations";
+} from './operations';
 
-const handlePending = (state) => {
+const handlePending = state => {
   state.isLoading = true;
   state.error = null;
 };
@@ -17,17 +17,28 @@ const handleRejected = (state, action) => {
 };
 
 const facultiesSlice = createSlice({
-  name: "faculties",
+  name: 'faculties',
   initialState: { items: [], isLoading: false, error: null },
-  // initialState: {
-  //   contacts: {
-  //     items: [],
-  //     isLoading: false,
-  //     error: null,
-  //   },
-  //   filter: '',
-  // },
-  extraReducers: (builder) => {
+  reducers: {
+    addTagToFaculty: (state, action) => {
+      const { facultyId, tag } = action.payload;
+      const faculty = state.items.find(faculty => faculty.id === facultyId);
+      if (faculty) {
+        if (!faculty.tags) {
+          faculty.tags = [];
+        }
+        faculty.tags.push(tag);
+      }
+    },
+    removeTagFromFaculty: (state, action) => {
+      const { facultyId, tagIndex } = action.payload;
+      const faculty = state.items.find(faculty => faculty.id === facultyId);
+      if (faculty && faculty.tags) {
+        faculty.tags.splice(tagIndex, 1);
+      }
+    },
+  },
+  extraReducers: builder => {
     builder
       .addCase(fetchFaculties.fulfilled, (state, action) => {
         state.items = action.payload;
@@ -45,7 +56,7 @@ const facultiesSlice = createSlice({
       .addCase(addFaculty.rejected, handleRejected)
       .addCase(updateFaculty.fulfilled, (state, action) => {
         const index = state.items.findIndex(
-          (faculty) => faculty.id === action.payload.id
+          faculty => faculty.id === action.payload.id
         );
         if (index !== -1) {
           state.items[index] = action.payload;
@@ -57,7 +68,7 @@ const facultiesSlice = createSlice({
       .addCase(updateFaculty.rejected, handleRejected)
       .addCase(deleteFaculty.fulfilled, (state, action) => {
         state.items = state.items.filter(
-          (faculty) => faculty.id !== action.payload.id
+          faculty => faculty.id !== action.payload.id
         );
         state.isLoading = false;
         state.error = null;
@@ -66,5 +77,7 @@ const facultiesSlice = createSlice({
       .addCase(deleteFaculty.rejected, handleRejected);
   },
 });
+
+export const { addTagToFaculty, removeTagFromFaculty } = facultiesSlice.actions;
 
 export const facultiesReducer = facultiesSlice.reducer;

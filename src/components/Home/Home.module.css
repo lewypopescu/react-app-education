@@ -1,0 +1,42 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(to bottom right, #1e3a8a, #60a5fa);
+  color: white;
+  height: 96%;
+  border-radius: 15px;
+}
+
+.welcomeMessage {
+  text-align: center;
+  padding: 40px;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.welcomeMessage h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.welcomeMessage p {
+  font-size: 1.3rem;
+  line-height: 1.7;
+}
+
+.welcomeMessage ul {
+  text-align: left;
+  margin: 20px 0;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.welcomeMessage ul li {
+  margin-bottom: 0.5rem;
+}

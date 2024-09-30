@@ -1,11 +1,11 @@
 .toggle {
   background: #0916d4;
   position: absolute;
-  top: 96px;
-  right: -16px;
+  top: 363px;
+  right: -0px;
   outline: none;
   border: none;
-  border-radius: 100%;
+  border-radius: 50%;
   height: 32px;
   width: 32px;
   padding: 0;
@@ -14,20 +14,16 @@
   justify-content: center;
   color: #fff;
   cursor: pointer;
+  z-index: 1000;
+  transition: background 0.3s ease;
 }
 
 .toggle:hover {
   background-color: #009dff;
-  color: #000000;
 }
 
 .toggle svg {
   color: #fff;
   height: 16px;
   width: 16px;
-}
-
-.toggle svg:hover {
-  background-color: #009dff;
-  color: #000000;
 }

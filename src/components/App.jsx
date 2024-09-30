@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import Sidebar from './Sidebar';
-import HistoryContent from '../components/HistoryContent/HistoryContent';
-import DescriptionContent from '../components/DescriptionContent/DescriptionContent';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import LoadingPage from '../pages/LoadingPage/LoadingPage';
 
@@ -16,17 +14,13 @@ import { PrivateRoute } from './PrivateRoute';
 
 import { fetchFaculties, fetchTutors } from '../redux/operations';
 
-const LazyUniversityPage = lazy(() =>
-  import('../pages/UniversityPage/UniversityPage')
-);
+const LazyHomePage = lazy(() => import('../pages/HomePage/HomePage'));
 
 const LazyFacultiesPage = lazy(() =>
   import('../pages/FacultiesPage/FacultiesPage')
 );
 
-const LazyFacultyContent = lazy(() =>
-  import('./FacultyContent/FacultyContent')
-);
+const LazyTutorsPage = lazy(() => import('../pages/TutorsPage/TutorsPage'));
 
 const LazyLoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 
@@ -52,7 +46,7 @@ export default function App() {
               path="/login"
               element={
                 <RestrictedRoute
-                  redirectTo="/university"
+                  redirectTo="/home"
                   component={<LazyLoginPage />}
                 />
               }
@@ -61,7 +55,7 @@ export default function App() {
               path="/register"
               element={
                 <RestrictedRoute
-                  redirectTo="/university"
+                  redirectTo="/home"
                   component={<LazyRegisterPage />}
                 />
               }
@@ -71,16 +65,25 @@ export default function App() {
               element={
                 <PrivateRoute
                   redirectTo="/login"
-                  component={<LazyUniversityPage />}
+                  component={<LazyHomePage />}
                 />
               }
             />
             <Route
-              path="/university"
+              path="/home"
               element={
                 <PrivateRoute
                   redirectTo="/login"
-                  component={<LazyUniversityPage />}
+                  component={<LazyHomePage />}
+                />
+              }
+            />
+            <Route
+              path="/tutors"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<LazyTutorsPage />}
                 />
               }
             />
@@ -93,20 +96,6 @@ export default function App() {
                 />
               }
             />
-            <Route
-              path="/faculties/:facultyName"
-              element={
-                <PrivateRoute
-                  redirectTo="/login"
-                  component={<LazyFacultyContent />}
-                />
-              }
-            >
-              <Route path="" element={<DescriptionContent />} />
-              <Route path="description" element={<DescriptionContent />} />
-              <Route path="history" element={<HistoryContent />} />
-            </Route>
-
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

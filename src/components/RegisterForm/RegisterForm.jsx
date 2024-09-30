@@ -1,43 +1,127 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import css from "./RegisterForm.module.css";
+import css from './RegisterForm.module.css';
 
-import { register } from "../../redux/auth/operations";
+import { register } from '../../redux/auth/operations';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState({ name: '', email: '', password: '' });
 
-  const handleSubmit = (event) => {
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    let newErrors = { name: '', email: '', password: '' };
+
+    if (!formData.name) {
+      newErrors.name = 'Username is required';
+      valid = false;
+    } else if (!/^[a-zA-Z0-9]{3,}$/.test(formData.name)) {
+      newErrors.name =
+        'Username must be at least 3 characters and contain only letters or numbers';
+      valid = false;
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is not valid';
+      valid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+      valid = false;
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+      valid = false;
+    } else if (
+      !/[A-Z]/.test(formData.password) ||
+      !/[0-9]/.test(formData.password)
+    ) {
+      newErrors.password =
+        'Password must contain at least one uppercase letter and one number';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = event => {
     event.preventDefault();
-    const form = event.currentTarget;
-
-    dispatch(
-      register({
-        name: form.elements.name.value,
-        email: form.elements.email.value,
-        password: form.elements.password.value,
-      })
-    );
-
-    form.reset();
+    if (validateForm()) {
+      dispatch(
+        register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+      setFormData({ name: '', email: '', password: '' });
+    }
   };
 
   return (
-    <form className={css.form} autoComplete="off" onSubmit={handleSubmit}>
-      <label className={css.label}>
-        Username
-        <input type="text" name="name" />
-      </label>
-      <label className={css.label}>
-        Email
-        <input type="email" name="email" />
-      </label>
-      <label className={css.label}>
-        Password
-        <input type="password" name="password" />
-      </label>
-      <button type="submit">Register</button>
-    </form>
+    <div className={css.container}>
+      <h1 className={css.welcome}>
+        Welcome to the Educational Community Platform!
+      </h1>
+      <h2 className={css.label}>Sign Up to Continue</h2>
+      <form className={css.form} autoComplete="off" onSubmit={handleSubmit}>
+        <div className={css.inputGroup}>
+          <label className={css.label}>Username</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className={css.input}
+          />
+          {errors.name && <span className={css.error}>{errors.name}</span>}
+        </div>
+
+        <div className={css.inputGroup}>
+          <label className={css.label}>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={css.input}
+          />
+          {errors.email && <span className={css.error}>{errors.email}</span>}
+        </div>
+
+        <div className={css.inputGroup}>
+          <label className={css.label}>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className={css.input}
+          />
+          {errors.password && (
+            <span className={css.error}>{errors.password}</span>
+          )}
+        </div>
+
+        <button type="submit" className={css.submitButton}>
+          Register
+        </button>
+      </form>
+    </div>
   );
 };

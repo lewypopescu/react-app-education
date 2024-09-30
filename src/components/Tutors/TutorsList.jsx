@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
-// import axios from "axios"; z
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import { useDebounce } from '@uidotdev/usehooks';
 
 import { FaPlusCircle } from 'react-icons/fa';
 import styles from './TutorsList.module.css';
-
-import Tutor from './Tutor';
-import Button from '../Button';
-import Input from '../common/Input';
-import Loading from '../common/Loading';
-import Alert from '../common/Alert';
-
-import useToggle from '../../hooks/useToggle';
 
 import {
   selectTutors,
@@ -23,42 +12,25 @@ import {
 
 import { addTutor, deleteTutor } from '../../redux/operations';
 
-// axios.defaults.baseURL = "http://localhost:3001";
-
 const INITIAL_FORM_STATE = {
   lastName: '',
   firstName: '',
   email: '',
   phone: '',
   city: '',
+  faculty: '',
 };
 
 export default function TutorsList() {
-  // const [tutors, setTutors] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
-
-  const [isFormVisible, toggleForm] = useToggle(false);
+  const [isFormVisible, toggleForm] = useState(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tutorToDelete, setTutorToDelete] = useState(null);
 
   const tutors = useSelector(selectTutors);
   const loading = useSelector(selectTutorsLoading);
   const error = useSelector(selectTutorsError);
-
   const dispatch = useDispatch();
-
-  function renderList(items) {
-    return items.map(item => (
-      <Tutor
-        key={item.phone}
-        item={item}
-        handleDelete={() => dispatch(deleteTutor(item.id))}
-      />
-    ));
-  }
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -73,101 +45,154 @@ export default function TutorsList() {
     const data = formData;
     dispatch(addTutor(data));
     setFormData({ ...INITIAL_FORM_STATE });
-    toggleForm();
+    toggleForm(false);
   }
 
-  function getTutorsCount(tutors) {
-    return tutors.length;
-  }
+  const openDeleteModal = tutor => {
+    setTutorToDelete(tutor);
+    setIsModalOpen(true);
+  };
 
-  const filteredTutorsList = tutors.filter(tutor => {
-    return (
-      tutor.firstName
-        .toLowerCase()
-        .includes(debouncedSearchTerm.toLowerCase()) ||
-      tutor.lastName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-    );
-  });
+  const confirmDelete = () => {
+    dispatch(deleteTutor(tutorToDelete.id));
+    setIsModalOpen(false);
+    setTutorToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false);
+    setTutorToDelete(null);
+  };
+
+  const renderList = items => {
+    return items.map((item, index) => (
+      <div key={index} className={styles.tutorCard}>
+        <div className={styles.tutorDetail}>
+          <p className={styles.subtitle}>Tutor Name:</p>
+          <h2>
+            {item.firstName} {item.lastName}
+          </h2>
+        </div>
+        <div className={styles.tutorDetail}>
+          <p className={styles.subtitle}>Email Adress:</p>
+          <p>{item.email}</p>
+        </div>
+        <div className={styles.tutorDetail}>
+          <p className={styles.subtitle}>Phone Number:</p>
+          <p>{item.phone}</p>
+        </div>
+        <div className={styles.tutorDetail}>
+          <p className={styles.subtitle}>City:</p>
+          <p>{item.city}</p>
+        </div>
+        <div className={styles.tutorDetail}>
+          <p className={styles.subtitle}>Faculty:</p>
+          <p>{item.faculty}</p>
+        </div>
+        <button onClick={() => openDeleteModal(item)} className={styles.button}>
+          Delete
+        </button>
+      </div>
+    ));
+  };
 
   return (
-    <section className="section">
-      <h2 className="h2">Tutors</h2>
-      <input
-        type="text"
-        name="searchTerm"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-      />
-      <div className={styles.list}>
-        {loading && <Loading />}
-        {error && <Alert message={error} />}
-        {renderList(filteredTutorsList)}
-        <p>Number of tutors found {getTutorsCount(filteredTutorsList)}</p>
-        <p>Number of tutors {getTutorsCount(tutors)} </p>
+    <section className={styles.section}>
+      <div className={styles.header}>
+        <h1>Welcome to the Page of Tutors!</h1>
+        <p className={styles.subtitle}>
+          Feel free to explore and contribute to the Tutors community by sharing
+          your insights and helping grow this space.
+        </p>
       </div>
 
+      <div className={styles.list}>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        {renderList(tutors)}
+      </div>
       {isFormVisible && (
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h3>Adding a tutor</h3>
-          <Input
-            label="Surname"
+          <h3 className={styles.subtitle}>Adding a tutor</h3>
+          <input
+            label="First Name"
             name="firstName"
             type="text"
             value={formData.firstName}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            placeholder="Name"
+            required
           />
-
-          <Input
-            label="Name"
+          <input
+            label="Last Name"
             name="lastName"
             type="text"
             value={formData.lastName}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            placeholder="Last Name"
+            required
           />
-
-          <Input
+          <input
             label="Phone"
             name="phone"
             type="tel"
             value={formData.phone}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            placeholder="Phone Number"
+            required
           />
-
-          <Input
+          <input
             label="Email"
             name="email"
             type="email"
             value={formData.email}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            placeholder="Email Address"
+            required
           />
-
-          <Input
+          <input
             label="City"
             name="city"
             type="text"
             value={formData.city}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            placeholder="City"
+            required
           />
-
-          <Button type="submit" handleClick={() => {}}>
+          <input
+            label="Faculty"
+            name="faculty"
+            type="text"
+            value={formData.faculty}
+            onChange={handleChange}
+            placeholder="Faculty"
+            required
+          />
+          <button type="submit" className={styles.addButton}>
             Invite
-          </Button>
+          </button>
         </form>
       )}
 
-      <Button handleClick={toggleForm}>
-        <FaPlusCircle />
-        Add Tutor
-      </Button>
+      <button
+        onClick={() => toggleForm(!isFormVisible)}
+        className={styles.addButton}
+      >
+        <FaPlusCircle /> Add Tutor
+      </button>
+      {isModalOpen && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <p>Are you sure you want to delete this tutor?</p>
+            <button onClick={confirmDelete} className={styles.modalButton}>
+              Yes, Delete
+            </button>
+            <button onClick={cancelDelete} className={styles.cancelButton}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-
-TutorsList.propTypes = {
-  tutors: PropTypes.array,
-};

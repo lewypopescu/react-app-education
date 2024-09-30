@@ -1,19 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { FaPlusCircle } from 'react-icons/fa';
-
 import styles from './Faculties.module.css';
-
-import Button from '../Button';
-import Input from '../common/Input';
-import Loading from '../common/Loading';
-import Alert from '../common/Alert';
-import InfoBlock from '../InfoBlock/InfoBlock';
-import Paper from '../Paper';
-
-import useToggle from '../../hooks/useToggle';
 
 import {
   selectFaculties,
@@ -27,101 +16,228 @@ import {
   deleteFaculty,
 } from '../../redux/operations';
 
+import {
+  addTagToFaculty,
+  removeTagFromFaculty,
+} from '../../redux/facultiesSlice';
+
+import { selectUser } from '../../redux/auth/selectors';
+
 const INITIAL_FORM_STATE = {
   name: '',
   description: '',
   history: '',
 };
 
-export default function FacultiesList() {
-  const [isFormVisible, toggleForm] = useToggle(false);
+export default function University() {
+  const [isFormVisible, toggleForm] = useState(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
-
+  const [editingFaculty, setEditingFaculty] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [facultyToDelete, setFacultyToDelete] = useState(null);
   const dispatch = useDispatch();
 
   const faculties = useSelector(selectFaculties);
   const loading = useSelector(selectFacultiesLoading);
   const error = useSelector(selectFacultiesError);
+  const currentUser = useSelector(selectUser);
 
-  function renderList(items) {
-    return items.map(item => (
-      <Paper key={item.id}>
-        <InfoBlock
-          id={item.id}
-          info={item.name}
-          onEdit={updateFaculty}
-          onDelete={deleteFaculty}
-        />
-      </Paper>
-    ));
-  }
-
-  function handleChange(evt) {
+  const handleChange = evt => {
     const { name, value } = evt.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
+    setFormData({ ...formData, [name]: value });
+  };
 
-  function handleSubmit(evt) {
+  const handleSubmit = evt => {
     evt.preventDefault();
-    const data = formData;
-    dispatch(addFaculty(data));
+    if (editingFaculty) {
+      dispatch(updateFaculty(formData));
+    } else {
+      dispatch(addFaculty(formData));
+    }
     setFormData({ ...INITIAL_FORM_STATE });
-    toggleForm();
-  }
+    toggleForm(false);
+    setEditingFaculty(null);
+  };
+
+  const handleEdit = faculty => {
+    setEditingFaculty(faculty);
+    setFormData({ ...faculty });
+    toggleForm(true);
+  };
+
+  const openDeleteModal = faculty => {
+    setFacultyToDelete(faculty);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    dispatch(deleteFaculty(facultyToDelete.id));
+    setIsModalOpen(false);
+    setFacultyToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false);
+    setFacultyToDelete(null);
+  };
+
+  const handleAddFaculty = () => {
+    setFormData({ ...INITIAL_FORM_STATE });
+    setEditingFaculty(null);
+    toggleForm(true);
+  };
+
+  const handleCancel = () => {
+    setFormData({ ...INITIAL_FORM_STATE });
+    toggleForm(false);
+  };
+
+  const handleRemoveTag = (facultyId, tagIndex) => {
+    dispatch(removeTagFromFaculty({ facultyId, tagIndex }));
+  };
+
+  const renderList = () => {
+    const handleAddTag = facultyId => {
+      const tag = prompt('Enter a tag for this faculty:');
+      if (tag) {
+        const tagWithUser = { tag, addedBy: currentUser.name };
+        dispatch(addTagToFaculty({ facultyId, tag: tagWithUser }));
+      }
+    };
+
+    return faculties.map(item => (
+      <div key={item.id} className={styles.facultyCard}>
+        <div className={styles.facultyInfo}>
+          <h3 className={styles.subtitle}>Faculty Name:</h3>
+          <h2>{item.name}</h2>
+          {item.location && (
+            <>
+              <h3 className={styles.subtitle}>Location:</h3>
+              <p>{item.location}</p>
+            </>
+          )}
+          <h3 className={styles.subtitle}>Description:</h3>
+          <p>{item.description}</p>
+          <div className={styles.tagsSection}>
+            <p className={styles.subtitle}>Tags:</p>
+            <div className={styles.tagsContainer}>
+              {item.tags && item.tags.length > 0 ? (
+                item.tags.map((tagObj, index) => (
+                  <span key={index} className={styles.tag}>
+                    {tagObj.tag}
+                    <small>- added by {tagObj.addedBy}</small>
+                    <span
+                      className={styles.removeTag}
+                      onClick={() => handleRemoveTag(item.id, index)}
+                    >
+                      ✶
+                    </span>
+                  </span>
+                ))
+              ) : (
+                <span>No tags</span>
+              )}
+            </div>
+            <button
+              onClick={() => handleAddTag(item.id)}
+              className={styles.addTagButton}
+            >
+              Add Tag
+            </button>
+          </div>
+        </div>
+        <button onClick={() => handleEdit(item)} className={styles.button}>
+          Edit
+        </button>
+        <button
+          onClick={() => openDeleteModal(item)}
+          className={styles.buttonDelete}
+        >
+          Delete
+        </button>
+      </div>
+    ));
+  };
 
   return (
-    <section className="section">
-      <h2 className="h2">Faculty</h2>
+    <section className={styles.section}>
+      <div className={styles.header}>
+        <h1>Welcome to the Page of Faculties!</h1>
+        <p className={styles.subtitle}>
+          Feel free to explore and contribute to the Faculties community by
+          sharing your insights and helping grow this space.
+        </p>
+      </div>
+      {error && <p className={styles.error}>Error: {error}</p>}
 
       <div className={styles.list}>
-        {loading && <Loading />}
-        {error && <Alert message={error} />}
-        {renderList(faculties)}
+        {loading ? <p>Loading...</p> : renderList()}
       </div>
 
       {isFormVisible && (
         <form className={styles.form} onSubmit={handleSubmit}>
-          <h3>Adding a faculty</h3>
-          <Input
-            label="name"
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            type="text"
             name="name"
-            type="text"
             value={formData.name}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            required
           />
 
-          <Input
-            label="description"
+          <label htmlFor="description">Description</label>
+          <input
+            id="description"
+            type="text"
             name="description"
-            type="text"
             value={formData.description}
-            handleChange={handleChange}
-            required={true}
+            onChange={handleChange}
+            required
           />
 
-          <Input
-            label="history"
-            name="history"
+          <label htmlFor="location">Location</label>
+          <input
+            id="location"
             type="text"
-            value={formData.history}
-            handleChange={handleChange}
-            required={true}
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
           />
 
-          <Button type="submit" handleClick={() => {}}>
-            Invite
-          </Button>
+          <button type="submit" className={styles.submitButton}>
+            {editingFaculty ? 'Update Faculty' : 'Add Faculty'}
+          </button>
         </form>
       )}
 
-      <Button handleClick={toggleForm}>
-        <FaPlusCircle />
-        Add Faculty
-      </Button>
+      <button onClick={handleAddFaculty} className={styles.addButton}>
+        <FaPlusCircle /> Add Faculty
+      </button>
+      {isFormVisible && (
+        <button
+          type="button"
+          onClick={handleCancel}
+          className={styles.cancelButton}
+        >
+          Cancel
+        </button>
+      )}
+
+      {isModalOpen && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <p>Are you sure you want to delete this faculty?</p>
+            <button onClick={confirmDelete} className={styles.modalButton}>
+              Yes, Delete
+            </button>
+            <button onClick={cancelDelete} className={styles.cancelButton}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

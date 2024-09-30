@@ -1,34 +1,20 @@
-import React, { useEffect } from 'react';
-import style from './Modal.module.css';
+import React from 'react';
 
-export default function Modal({ isOpen, onClose, children }) {
-  const handleKeyDown = event => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  };
+import './Modal.css';
 
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, onClose, handleKeyDown]);
-
-  if (!isOpen) {
-    return null;
-  }
-
+export default function Modal({ message, onConfirm, onCancel }) {
   return (
-    <div className={style.modalOverlay}>
-      <div className={style.modalContent}>
-        <button className={style.closeButton} onClick={onClose}>
-          &times;
-        </button>
-        {children}
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <p>{message}</p>
+        <div className="modal-actions">
+          <button className="modal-button confirm" onClick={onConfirm}>
+            Yes, Log Out
+          </button>
+          <button className="modal-button cancel" onClick={onCancel}>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
