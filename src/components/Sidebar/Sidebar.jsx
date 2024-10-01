@@ -36,7 +36,7 @@ export default function Sidebar() {
 
   const menuConfigLogged = [
     { icon: <HiBookOpen />, name: 'Home Page', path: '/home' },
-    { icon: <HiAcademicCap />, name: 'Faculties', path: '/faculties' },
+    { icon: <HiAcademicCap />, name: 'Universities', path: '/universities' },
     { icon: <HiBookOpen />, name: 'Tutors', path: '/tutors' },
   ];
 

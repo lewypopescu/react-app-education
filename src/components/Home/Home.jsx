@@ -8,15 +8,15 @@ export default function Home() {
       <div className={styles.welcomeMessage}>
         <h1>Welcome to the Educational Community Platform!</h1>
         <p>
-          Our platform connects students (users) with tutors and faculties
+          Our platform connects students (users) with tutors and universities
           through a collaborative environment. Each user has their own account
-          for registration and login, but the tutor and faculty database is
+          for registration and login, but the tutor and university database is
           shared among all users. This creates a dynamic space where users can:
         </p>
         <ul>
           <li>
-            Provide feedback on faculties, with each comment tagged with the
-            users name. Add, edit, or delete information about faculties,
+            Provide feedback on universities, with each comment tagged with the
+            users name. Add, edit, or delete information about universities,
             ensuring an up-to-date and accurate database for everyone.
           </li>
           <li>

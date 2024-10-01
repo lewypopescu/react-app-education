@@ -50,7 +50,7 @@
   gap: 16px;
 }
 
-.facultyCard {
+.universityCard {
   background: rgba(255, 255, 255, 0.15);
   padding: 20px;
   border-radius: 8px;
@@ -62,22 +62,22 @@
   gap: 16px;
 }
 
-.facultyCard:hover {
+.universityCard:hover {
   transform: translateY(-5px);
 }
 
-.facultyInfo h3 {
+.universityInfo h3 {
   font-size: 20px;
   margin-bottom: 9px;
   color: #f0f0f0;
 }
 
-.facultyInfo h2 {
+.universityInfo h2 {
   font-size: 19px;
   color: #24394f;
 }
 
-.facultyInfo p {
+.universityInfo p {
   font-size: 14px;
   color: #f0f0f0;
 }

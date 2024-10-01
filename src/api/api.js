@@ -61,6 +61,6 @@ const resourceApi = resource => {
 };
 
 const tutorsApi = resourceApi('tutors');
-const facultiesApi = resourceApi('faculties');
+const universitiesApi = resourceApi('universities');
 
-export { tutorsApi, facultiesApi };
+export { tutorsApi, universitiesApi };

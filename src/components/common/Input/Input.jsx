@@ -1,5 +1,6 @@
-import React from "react";
-import styles from "./Input.module.css";
+import React from 'react';
+
+import styles from './Input.module.css';
 
 export default function Input({
   label,
@@ -15,11 +16,11 @@ export default function Input({
     inputProps.required = true;
   }
 
-  if (type === "tel") {
+  if (type === 'tel') {
     inputProps.pattern =
-      "+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}";
+      '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}';
     inputProps.title =
-      "Phone number must be digits and can contain spaces, dashes, parentheses and can start with +";
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +';
   }
 
   return (

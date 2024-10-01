@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { FaPlusCircle } from 'react-icons/fa';
-import styles from './Faculties.module.css';
+import styles from './Universities.module.css';
 
 import {
-  selectFaculties,
-  selectFacultiesError,
-  selectFacultiesLoading,
+  selectUniversities,
+  selectUniversitiesError,
+  selectUniversitiesLoading,
 } from '../../redux/selectors';
 
 import {
-  addFaculty,
-  updateFaculty,
-  deleteFaculty,
+  addUniversity,
+  updateUniversity,
+  deleteUniversity,
 } from '../../redux/operations';
 
 import {
-  addTagToFaculty,
-  removeTagFromFaculty,
-} from '../../redux/facultiesSlice';
+  addTagToUniversity,
+  removeTagFromUniversity,
+} from '../../redux/universitiesSlice';
 
 import { selectUser } from '../../redux/auth/selectors';
 
@@ -32,14 +32,16 @@ const INITIAL_FORM_STATE = {
 export default function University() {
   const [isFormVisible, toggleForm] = useState(false);
   const [formData, setFormData] = useState({ ...INITIAL_FORM_STATE });
-  const [editingFaculty, setEditingFaculty] = useState(null);
+  const [editingUniversity, setEditingUniversity] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [facultyToDelete, setFacultyToDelete] = useState(null);
+  const [universityToDelete, setUniversityToDelete] = useState(null);
+
   const dispatch = useDispatch();
 
-  const faculties = useSelector(selectFaculties);
-  const loading = useSelector(selectFacultiesLoading);
-  const error = useSelector(selectFacultiesError);
+  const universities = useSelector(selectUniversities);
+  const loading = useSelector(selectUniversitiesLoading);
+  const error = useSelector(selectUniversitiesError);
+
   const currentUser = useSelector(selectUser);
 
   const handleChange = evt => {
@@ -49,41 +51,41 @@ export default function University() {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    if (editingFaculty) {
-      dispatch(updateFaculty(formData));
+    if (editingUniversity) {
+      dispatch(updateUniversity(formData));
     } else {
-      dispatch(addFaculty(formData));
+      dispatch(addUniversity(formData));
     }
     setFormData({ ...INITIAL_FORM_STATE });
     toggleForm(false);
-    setEditingFaculty(null);
+    setEditingUniversity(null);
   };
 
-  const handleEdit = faculty => {
-    setEditingFaculty(faculty);
-    setFormData({ ...faculty });
+  const handleEdit = university => {
+    setEditingUniversity(university);
+    setFormData({ ...university });
     toggleForm(true);
   };
 
-  const openDeleteModal = faculty => {
-    setFacultyToDelete(faculty);
+  const openDeleteModal = university => {
+    setUniversityToDelete(university);
     setIsModalOpen(true);
   };
 
   const confirmDelete = () => {
-    dispatch(deleteFaculty(facultyToDelete.id));
+    dispatch(deleteUniversity(universityToDelete.id));
     setIsModalOpen(false);
-    setFacultyToDelete(null);
+    setUniversityToDelete(null);
   };
 
   const cancelDelete = () => {
     setIsModalOpen(false);
-    setFacultyToDelete(null);
+    setUniversityToDelete(null);
   };
 
-  const handleAddFaculty = () => {
+  const handleAddUniversity = () => {
     setFormData({ ...INITIAL_FORM_STATE });
-    setEditingFaculty(null);
+    setEditingUniversity(null);
     toggleForm(true);
   };
 
@@ -92,23 +94,23 @@ export default function University() {
     toggleForm(false);
   };
 
-  const handleRemoveTag = (facultyId, tagIndex) => {
-    dispatch(removeTagFromFaculty({ facultyId, tagIndex }));
+  const handleRemoveTag = (universityId, tagIndex) => {
+    dispatch(removeTagFromUniversity({ universityId, tagIndex }));
   };
 
   const renderList = () => {
-    const handleAddTag = facultyId => {
-      const tag = prompt('Enter a tag for this faculty:');
+    const handleAddTag = universityId => {
+      const tag = prompt('Enter a tag for this University:');
       if (tag) {
         const tagWithUser = { tag, addedBy: currentUser.name };
-        dispatch(addTagToFaculty({ facultyId, tag: tagWithUser }));
+        dispatch(addTagToUniversity({ universityId, tag: tagWithUser }));
       }
     };
 
-    return faculties.map(item => (
-      <div key={item.id} className={styles.facultyCard}>
-        <div className={styles.facultyInfo}>
-          <h3 className={styles.subtitle}>Faculty Name:</h3>
+    return universities.map(item => (
+      <div key={item.id} className={styles.universityCard}>
+        <div className={styles.universityInfo}>
+          <h3 className={styles.subtitle}>University Name:</h3>
           <h2>{item.name}</h2>
           {item.location && (
             <>
@@ -162,9 +164,9 @@ export default function University() {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <h1>Welcome to the Page of Faculties!</h1>
+        <h1>Welcome to the Page of Universities!</h1>
         <p className={styles.subtitle}>
-          Feel free to explore and contribute to the Faculties community by
+          Feel free to explore and contribute to the Universities community by
           sharing your insights and helping grow this space.
         </p>
       </div>
@@ -207,13 +209,13 @@ export default function University() {
           />
 
           <button type="submit" className={styles.submitButton}>
-            {editingFaculty ? 'Update Faculty' : 'Add Faculty'}
+            {editingUniversity ? 'Update Faculty' : 'Add Faculty'}
           </button>
         </form>
       )}
 
-      <button onClick={handleAddFaculty} className={styles.addButton}>
-        <FaPlusCircle /> Add Faculty
+      <button onClick={handleAddUniversity} className={styles.addButton}>
+        <FaPlusCircle /> Add University
       </button>
       {isFormVisible && (
         <button
@@ -228,7 +230,7 @@ export default function University() {
       {isModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <p>Are you sure you want to delete this faculty?</p>
+            <p>Are you sure you want to delete this University?</p>
             <button onClick={confirmDelete} className={styles.modalButton}>
               Yes, Delete
             </button>

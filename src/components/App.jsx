@@ -12,12 +12,12 @@ import { PrivateRoute } from './PrivateRoute';
 
 // import data from '../utils/data.json';
 
-import { fetchFaculties, fetchTutors } from '../redux/operations';
+import { fetchUniversities, fetchTutors } from '../redux/operations';
 
 const LazyHomePage = lazy(() => import('../pages/HomePage/HomePage'));
 
-const LazyFacultiesPage = lazy(() =>
-  import('../pages/FacultiesPage/FacultiesPage')
+const LazyUniversitiesPage = lazy(() =>
+  import('../pages/UniversitiesPage/UniversitiesPage')
 );
 
 const LazyTutorsPage = lazy(() => import('../pages/TutorsPage/TutorsPage'));
@@ -32,7 +32,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFaculties());
+    dispatch(fetchUniversities());
     dispatch(fetchTutors());
   }, [dispatch]);
 
@@ -88,11 +88,11 @@ export default function App() {
               }
             />
             <Route
-              path="/faculties"
+              path="/universities"
               element={
                 <PrivateRoute
                   redirectTo="/login"
-                  component={<LazyFacultiesPage />}
+                  component={<LazyUniversitiesPage />}
                 />
               }
             />

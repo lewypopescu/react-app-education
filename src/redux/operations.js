@@ -1,8 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { tutorsApi, facultiesApi } from "../api/api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { tutorsApi, universitiesApi } from '../api/api';
 
 export const fetchTutors = createAsyncThunk(
-  "tutors/fetchTutors",
+  'tutors/fetchTutors',
   async (_, thunkApi) => {
     try {
       const response = await tutorsApi.getAll();
@@ -14,7 +15,7 @@ export const fetchTutors = createAsyncThunk(
 );
 
 export const addTutor = createAsyncThunk(
-  "tutors/addTutor",
+  'tutors/addTutor',
   async (tutor, thunkApi) => {
     try {
       const response = await tutorsApi.create({ ...tutor, id: 6 });
@@ -26,7 +27,7 @@ export const addTutor = createAsyncThunk(
 );
 
 export const deleteTutor = createAsyncThunk(
-  "tutors/deleteTutor",
+  'tutors/deleteTutor',
   async (tutorId, thunkApi) => {
     try {
       await tutorsApi.delete(tutorId);
@@ -37,11 +38,11 @@ export const deleteTutor = createAsyncThunk(
   }
 );
 
-export const fetchFaculties = createAsyncThunk(
-  "faculties/fetchFaculties",
+export const fetchUniversities = createAsyncThunk(
+  'universities/fetchUniversities',
   async (_, thunkApi) => {
     try {
-      const response = await facultiesApi.getAll();
+      const response = await universitiesApi.getAll();
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -49,11 +50,11 @@ export const fetchFaculties = createAsyncThunk(
   }
 );
 
-export const addFaculty = createAsyncThunk(
-  "faculties/addFaculty",
-  async (faculty, thunkApi) => {
+export const addUniversity = createAsyncThunk(
+  'universities/addUniversity',
+  async (university, thunkApi) => {
     try {
-      const response = await facultiesApi.create(faculty);
+      const response = await universitiesApi.create(university);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -61,11 +62,11 @@ export const addFaculty = createAsyncThunk(
   }
 );
 
-export const updateFaculty = createAsyncThunk(
-  "faculties/updateFaculty",
-  async (faculty, thunkApi) => {
+export const updateUniversity = createAsyncThunk(
+  'universities/updateUniversity',
+  async (university, thunkApi) => {
     try {
-      const response = await facultiesApi.update(faculty.id, faculty);
+      const response = await universitiesApi.update(university.id, university);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -73,12 +74,12 @@ export const updateFaculty = createAsyncThunk(
   }
 );
 
-export const deleteFaculty = createAsyncThunk(
-  "faculties/deleteFaculty",
-  async (facultyId, thunkApi) => {
+export const deleteUniversity = createAsyncThunk(
+  'universities/deleteUniversity',
+  async (universityId, thunkApi) => {
     try {
-      await facultiesApi.delete(facultyId);
-      return { id: facultyId };
+      await universitiesApi.delete(universityId);
+      return { id: universityId };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
