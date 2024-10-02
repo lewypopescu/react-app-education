@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import css from './RegisterForm.module.css';
 
 import { register } from '../../redux/auth/operations';
@@ -122,6 +125,7 @@ export const RegisterForm = () => {
           Register
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

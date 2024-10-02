@@ -1,6 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { currentUser, login, logout, signup } from '../../api/authAPI';
+import { toast } from 'react-toastify';
+
+import {
+  currentUser,
+  login,
+  logout,
+  signup,
+  setAuthHeader,
+} from '../../api/authAPI';
 
 export const register = createAsyncThunk(
   'auth/register',
@@ -9,11 +17,9 @@ export const register = createAsyncThunk(
       return await signup(credentials);
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return thunkAPI.rejectWithValue(
-          'Invalid email address or email already in use'
-        );
+        toast.error('Invalid email address or email already in use');
+        return thunkAPI.rejectWithValue(error.message);
       }
-      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -25,7 +31,8 @@ export const logIn = createAsyncThunk(
       return await login(credentials);
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return thunkAPI.rejectWithValue('Incorrect email or password');
+        toast.error('Incorrect email or password');
+        return thunkAPI.rejectWithValue(error.message);
       }
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -44,13 +51,19 @@ export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
+    let token = state.auth.token;
 
-    if (persistedToken === null) {
+    if (!token) {
+      token = localStorage.getItem('authToken');
+    }
+
+    if (!token) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
+
     try {
-      return await currentUser(persistedToken);
+      setAuthHeader(token);
+      return await currentUser(token);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

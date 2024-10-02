@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import css from './LoginForm.module.css';
 
 import { logIn } from '../../redux/auth/operations';
@@ -92,6 +95,7 @@ export const LoginForm = () => {
           Log In
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

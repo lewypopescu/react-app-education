@@ -5,14 +5,14 @@ export const instance = axios.create({
   baseURL: 'https://connections-api.goit.global/',
 });
 
-const setAuthHeader = token => {
+export const setAuthHeader = token => {
   if (token) {
     instance.defaults.headers.common.authorization = `Bearer ${token}`;
     localStorage.setItem('authToken', token);
   }
 };
 
-const clearAuthHeader = () => {
+export const clearAuthHeader = () => {
   instance.defaults.headers.common.authorization = '';
   localStorage.removeItem('authToken');
 };

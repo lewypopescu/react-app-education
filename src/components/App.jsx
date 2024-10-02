@@ -14,6 +14,8 @@ import { PrivateRoute } from './PrivateRoute';
 
 import { fetchUniversities, fetchTutors } from '../redux/operations';
 
+import { refreshUser } from '../api/authAPI';
+
 const LazyHomePage = lazy(() => import('../pages/HomePage/HomePage'));
 
 const LazyUniversitiesPage = lazy(() =>
@@ -34,6 +36,7 @@ export default function App() {
   useEffect(() => {
     dispatch(fetchUniversities());
     dispatch(fetchTutors());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
