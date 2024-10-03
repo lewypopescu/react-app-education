@@ -59,3 +59,11 @@
 .submitButton:hover {
   background-color: #009dff;
 }
+
+.subtext {
+  font-size: 1.2rem;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 66%;
+}

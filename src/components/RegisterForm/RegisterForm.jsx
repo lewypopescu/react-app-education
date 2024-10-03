@@ -81,7 +81,13 @@ export const RegisterForm = () => {
       <h1 className={css.welcome}>
         Welcome to the Educational Community Platform!
       </h1>
-      <h2 className={css.label}>Sign Up to Continue</h2>
+      <p className={css.subtext}>
+        Feel free to explore our platform, which connects students, tutors, and
+        universities in a collaborative environment. While users have their own
+        accounts, the shared database of teachers and universities is accessible
+        to all, fostering seamless interaction and knowledge sharing.
+      </p>
+      <h2 className={css.label}>Register to Continue</h2>
       <form className={css.form} autoComplete="off" onSubmit={handleSubmit}>
         <div className={css.inputGroup}>
           <label className={css.label}>Username</label>
