@@ -88,3 +88,55 @@
 .logout:hover {
   background: #ffebeb;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 0;
+  }
+
+  .sidebar--collapsed {
+    transform: translateX(0);
+  }
+
+  .toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    background-color: #ffffffdd;
+    border: none;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    padding: 6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-menu {
+    padding-top: 80px;
+  }
+
+  .sidebar-menu-item {
+    font-size: 1rem;
+    padding: 10px 16px;
+  }
+
+  .user-info {
+    padding: 10px;
+    font-size: 0.9rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logout {
+    justify-content: center;
+    padding: 12px;
+  }
+}

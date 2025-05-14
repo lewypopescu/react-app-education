@@ -40,3 +40,47 @@
 .welcomeMessage ul li {
   margin-bottom: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .homePage {
+    padding: 10px;
+    height: auto;
+  }
+
+  .welcomeMessage {
+    padding: 20px;
+    max-width: 100%;
+    margin-top: 10px;
+  }
+
+  .welcomeMessage h1 {
+    font-size: 2rem;
+  }
+
+  .welcomeMessage p {
+    font-size: 1rem;
+  }
+
+  .welcomeMessage ul {
+    padding-left: 1rem;
+    margin: 10px 0;
+  }
+
+  .welcomeMessage ul li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcomeMessage h1 {
+    font-size: 1.5rem;
+  }
+
+  .welcomeMessage p {
+    font-size: 0.95rem;
+  }
+
+  .welcomeMessage ul li {
+    font-size: 0.9rem;
+  }
+}
